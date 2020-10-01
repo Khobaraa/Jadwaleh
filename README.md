@@ -5,7 +5,7 @@
 - [Wireframes](#Wireframes)
 - [User Stories](#User-Stories)
 - [Domain Modeling](#Domain-Modeling)
-- [Contributors](#contributing)
+- [Contributors](#Contributors)
 - [Entity Relationship Diagram](#Entity-Relationship-Diagram)
 - [License](#license)
 
