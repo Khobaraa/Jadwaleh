@@ -1,7 +1,9 @@
 # Jadwaleh
 
 
+## UML
 
+[Click to See the UML Case Use Diagram](./resources/UML)
 
 ## Wireframe
 
