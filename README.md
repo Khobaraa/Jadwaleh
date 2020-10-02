@@ -12,12 +12,17 @@
 # About the Project
 This would be an demo of a social-educational app. Through it, the user will get a service of organizing their own study hours throughout the week, many different factors are taken into account to make some personalization possible, within reason.
 
+### Entity Relationship Diagram
 **MVP** : 
 1. Deliver a weekly study timetable with minimal clicking and maximum value.
 2. Allow users to regain control of focus during study time, by keeping relevant interactions in (in-app study chat & QA), and unnecessary distractions out.
 3. Provide a semi-direct and instantaneous feedback on performance and a valuable reference point for future projections. 
 
 To see more on the project requirements, click on [this.link](requirements.md). 
+
+## UML
+
+[Click to See the UML Case Use Diagram](./resources/UML)
 
 # Wireframes
 [Click to See the Wireframe](./assets/wireframe)
