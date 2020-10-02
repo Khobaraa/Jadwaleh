@@ -1,10 +1,13 @@
 # Jadwaleh
 
+## Wireframe
+
+[Click to See the Wireframe](./resources/wireframe)
 
 ## UML
 
 [Click to See the UML Case Use Diagram](./resources/UML)
 
-## Wireframe
+### Entity Relationship Diagram
 
-[Click to See the Wireframe](./resources/wireframe)
+![](./assets/ERM.JPG)
