@@ -19,7 +19,7 @@ Course.statics.list = async function () {
     courses.forEach(course => {
       stat = {
         name : course.name,
-        stat : course.getStatistics(),
+        progress : course.getStatistics(),
       };
       statArr.push(stat);
     });
