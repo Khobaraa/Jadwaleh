@@ -118,7 +118,7 @@ async function getInput() {
   [subjectsToChoose[picked][0]]
   .units[subjectsToChoose[picked][1].split(' ')[1] - 1]
   .completed++; //change completed
-  console.log('Update completion! ', validTemplates[template][subjectsToChoose[picked][0]].units[subjectsToChoose[picked][1].split(' ')[1]]);
+  console.log('Update completion! ', validTemplates[template][subjectsToChoose[picked][0]].units[subjectsToChoose[picked][1].split(' ')[1] - 1]);
 
   let dayWeek = date%7 == 0 ? 7 : date%7;
   table.week1[dayWeek - 1].push(subjectsToChoose[picked]);
