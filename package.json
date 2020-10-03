@@ -1,0 +1,32 @@
+{
+  "name": "Jadwaleh",
+  "version": "1.0.0",
+  "description": "- [About the Project](#about-the-project)\r - [Wireframes](#Wireframes)\r - [User Stories](#User-Stories)\r - [Domain Modeling](#Domain-Modeling)\r - [Contributors](#Contributors)\r - [Entity Relationship Diagram](#Entity-Relationship-Diagram)\r - [License](#license)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node": {
+    "__dirname": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khobaraa/Jadwaleh.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Khobaraa/Jadwaleh/issues"
+  },
+  "homepage": "https://github.com/Khobaraa/Jadwaleh#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "moment": "^2.29.0",
+    "mongoose": "^5.10.7",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.1"
+  }
+}

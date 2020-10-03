@@ -6,30 +6,21 @@
 // requirements constants
 const express = require('express');
 const app = express();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+require('./apps/chat/chat')(io);
 const cors = require('cors');
-
-const notFoundHandler = require('./auth/middleware/404');
-const serverErrorHandler = require('./src/middleware/500');
-
-
-// Global MiddleWare where you could call it anywhere and has a global scope
+const chatRouter = require('./routes/chat');
 app.use(express.json());
 app.use(cors());
-app.use(serverErrorHandler);
-app.use(express.static('./public'));
+app.use(chatRouter);
 
-// custom all containing route
-const v1Router = require('./routes/api-vs');
-app.use('/api/v1', v1Router);
-
-// error routes
-app.use('*', notFoundHandler);
 
 
 module.exports = {
-  server: app, 
+  server: http,
   start: port => {
-    let PORT = port || process.env.port || 3000;
-    app.listen(PORT, ()=> console.log(`Listening on port ${PORT}`));
+    let PORT = port || 3000;
+    http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   },
 };
