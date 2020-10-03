@@ -9,8 +9,13 @@ const Course = require('../dashboard/model/course_model');
 router.get('/dashboard', getDashboard);
 
 async function getDashboard(req,res,next){
-  let courses = await Course.list();
-  res.send(courses);
+  try{
+    let courses = await Course.list();
+    res.send(courses);
+  } catch(e){
+    next(e);
+  }
+  
 }
 
 module.exports = router;
