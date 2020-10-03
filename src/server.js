@@ -9,7 +9,7 @@ const app = express();
 const cors = require('cors');
 
 const notFoundHandler = require('./auth/middleware/404');
-const serverErrorHandler = require('./src/middleware/500');
+const serverErrorHandler = require('./auth/middleware/500');
 
 
 // Global MiddleWare where you could call it anywhere and has a global scope
@@ -19,8 +19,10 @@ app.use(serverErrorHandler);
 app.use(express.static('./public'));
 
 // custom all containing route
-const v1Router = require('./routes/api-vs');
-app.use('/api/v1', v1Router);
+
+// For dashboard
+const dashboard = require('./routes/dashboard');
+app.use('/', dashboard);
 
 // error routes
 app.use('*', notFoundHandler);
