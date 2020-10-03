@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 const mongoose = require('mongoose');
-const server = require('./src/server.js');
+const server = require('./src/server');
 // const MONGOOSE_URL = 'mongodb://localhost:27017/auth-db';
 const MONGOOSE_URL = process.env.mongo_URL;
 
