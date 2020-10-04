@@ -14,8 +14,8 @@ const schema = mongoose.model('table', {
           topics: [
             {
               name: {type: String, default: 0},
-              totalHours: {type: Number, default: 0},
-              completed: {type: Number, default: 0},
+              totalHours: {type: Number, default: 0}, // for future 
+              completed: {type: Number, default: 0}, // 0-1
             }
           ],
           totalHoursDay: {type: Number, default: 0}

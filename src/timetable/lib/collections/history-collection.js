@@ -12,7 +12,7 @@ const schema = mongoose.model('history', {
       units: [
         {
           number: {type: Number},
-          chapters: [Number],
+          chapters: [],
           completed: {type: Number, default: 0}
         },
       ]
