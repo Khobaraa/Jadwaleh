@@ -13,6 +13,7 @@ const usersModel = require('./auth/models/users-model');
 const basicAuth = require('./auth/middleware/basic');
 const bearerAuth = require('./auth/middleware/bearer');
 const aclMiddleWare = require('./auth/middleware/acl-middleware');
+const oauth = require('./auth/middleware/oauth')
 
 
 
@@ -27,6 +28,9 @@ app.use(express.static('./public'));
 // generic model
 app.post('/signup', postAuthDetails);
 app.post('/signin', basicAuth, verifyAuthDetails);
+app.get("/oauth", oauth, (req, res) => {
+  res.status(200).send(req.token);
+});
 
 app.get('/users/', bearerAuth, aclMiddleWare('read'), getUserDetails);
 app.get('/users/:id', bearerAuth, aclMiddleWare('read'), getUserDetails);
