@@ -1,7 +1,7 @@
 module.exports = (io) => {
   const chatDB = require('./model/chat-model');
   const chat = io.of('/chatRoom');
-  console.log(chat);
+
   const formatMessage = require('./utils/messages');
   const {
     userJoin,
@@ -14,9 +14,9 @@ module.exports = (io) => {
 
   // Run when client connects
   chat.on('connection', socket => {
-    let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
-    userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
-    console.log('userToken?????',userToken);
+    // let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
+    // userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
+    // console.log('userToken?????',userToken);
     socket.on('joinRoom', ({ username, room }) => {
       const user = userJoin(socket.id, username, room);
 
