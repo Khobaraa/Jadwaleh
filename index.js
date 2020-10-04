@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config();
+// require('dotenv').config();
 const mongoose = require('mongoose');
 const server = require('./src/server');
 const MONGOOSE_URL = 'mongodb://localhost:27017/auth-db';

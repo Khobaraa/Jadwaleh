@@ -2,7 +2,7 @@
 
 const superagent = require("superagent");
 const users = require('../models/users');
-
+require('dotenv').config();
 const { CLIENT_ID, CLIENT_SECRET } = process.env;
 const API_SERVER = "http://localhost:3000/oauth";
 
