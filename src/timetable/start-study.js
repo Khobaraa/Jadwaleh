@@ -4,6 +4,7 @@
 const inquirer = require('inquirer');
 const util = require('util');
 
+require('dotenv').config();
 const Input = require('./lib/input.js');
 const fillEmptyDB = require('./lib/collections/default.js');
 const template = require('./lib/collections/template-collection');
@@ -11,7 +12,7 @@ const history = require('./lib/collections/history-collection');
 const weekly = require('./lib/collections/weekly-collection');
 
 const mongoose = require('mongoose');
-const MONGOOSE_URL = 'mongodb://localhost:27017/jadwalla';
+const MONGOOSE_URL = process.env.MONGOOSE_URL ;
 mongoose.connect(MONGOOSE_URL, {
   useNewUrlParser : true,
   useUnifiedTopology : true,
@@ -97,7 +98,9 @@ async function getInput(choice, template) {
 async function getTemplate(validTemplates, pastTemplates) {
   let subjectsToChoose = [];
   let inputNum = -1;
-
+  if (!pastTemplates) {
+    waitForDebugger;
+  }
   console.log('validTemplates \n', validTemplates);
 
   let validTemplateNames = [];
