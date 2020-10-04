@@ -6,11 +6,12 @@
 // requirements constants
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+app.set('view engine', 'ejs');
 
 require('./apps/chat/chat')(io);
-const cors = require('cors');
 const chatRouter = require('./routes/chat');
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
@@ -19,7 +20,6 @@ const basicAuth = require('./auth/middleware/basic');
 const bearerAuth = require('./auth/middleware/bearer');
 const aclMiddleWare = require('./auth/middleware/acl-middleware');
 const oauth = require('./auth/middleware/oauth');
-
 
 
 
@@ -34,7 +34,7 @@ app.use(chatRouter);
 // generic model
 app.post('/signup', postAuthDetails);
 app.post('/signin', basicAuth, verifyAuthDetails);
-app.get("/oauth", oauth, (req, res) => {
+app.get('/oauth', oauth, (req, res) => {
   res.status(200).send(req.token);
 });
 
@@ -43,15 +43,37 @@ app.get('/users/:id', bearerAuth, aclMiddleWare('read'), getUserDetails);
 app.put('/users/:id', bearerAuth, aclMiddleWare('update'), updateUserDetails);
 app.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetails);
 
-app.use('*', notFoundHandler);
+
+///////////////////////////////////////////
+// const http = require('http');
+// const http = require('http').Server(app);
+// const io = require('socket.io')(http);
+
+io.on('connection', (socket) => {
+  socket.on('notification', msg => {
+    console.log(msg); 
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
 
 // custom all containing route
 
 // For dashboard
-// const dashboard = require('./routes/dashboard');
-// app.use('/', dashboard);
+const dashboard = require('./routes/dashboard');
+app.use('/', dashboard);
 
+//For template
+const template = require('./routes/template');
+app.use('/', template);
 
+// For notification
+// const notification = require('./notification/notification');
+// app.use('/', notification);
+
+app.use('*', notFoundHandler);
 // ----------------------------------- functions categories ----------------------------------- //
 async function postAuthDetails(req, res, next) {
   console.log('here in post');
@@ -119,4 +141,5 @@ module.exports = {
     let PORT = port || 3000;
     http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   },
+  http : http,
 };
