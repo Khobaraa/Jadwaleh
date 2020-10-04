@@ -1,7 +1,12 @@
 'use strict';
 
+<<<<<<< HEAD
 const superagent = require('superagent');
 const users = require('../users.js');
+=======
+const superagent = require("superagent");
+const users = require('../models/users');
+>>>>>>> master
 
 const { CLIENT_ID, CLIENT_SECRET } = process.env;
 const API_SERVER = 'http://localhost:3000/oauth';
