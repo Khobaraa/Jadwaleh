@@ -34,7 +34,7 @@ app.use(chatRouter);
 // generic model
 app.post('/signup', postAuthDetails);
 app.post('/signin', basicAuth, verifyAuthDetails);
-app.get("/oauth", oauth, (req, res) => {
+app.get('/oauth', oauth, (req, res) => {
   res.status(200).send(req.token);
 });
 
