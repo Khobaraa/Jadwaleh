@@ -16,3 +16,10 @@ const mongooseOptions = {
 mongoose.connect(MONGOOSE_URL, mongooseOptions);
 
 server.start(3000);
+
+// http server for socket.io
+
+// server.http.listen(PORT, () => {
+//   console.log('http server connected');
+// });
+

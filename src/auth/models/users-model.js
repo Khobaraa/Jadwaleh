@@ -17,7 +17,7 @@ let roles = {
  * defines the static schema that is used universally as 
  * username and password
  */
-const USERS = mongoose.model('CustomerModel', {
+const USERS = mongoose.model('Users', {
   username: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true, enum: ['user', 'writer', 'editor', 'admin']},

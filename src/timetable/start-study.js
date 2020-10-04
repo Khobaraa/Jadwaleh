@@ -12,7 +12,12 @@ const history = require('./lib/collections/history-collection');
 const weekly = require('./lib/collections/weekly-collection');
 
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const MONGOOSE_URL = process.env.MONGOOSE_URL ;
+=======
+// const MONGOOSE_URL = 'mongodb://localhost:27017/jadwalla';
+const MONGOOSE_URL = 'mongodb+srv://admin:admin@cluster0.m6biy.mongodb.net/jadwal?retryWrites=true&w=majority';
+>>>>>>> master
 mongoose.connect(MONGOOSE_URL, {
   useNewUrlParser : true,
   useUnifiedTopology : true,
