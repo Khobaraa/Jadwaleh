@@ -29,7 +29,7 @@ app.use(express.static('./public'));
 app.post('/signup', postAuthDetails);
 app.post('/signin', basicAuth, verifyAuthDetails);
 app.get("/oauth", oauth, (req, res) => {
-  res.status(200).send(req.token);
+  res.status(200).send(req.user);
 });
 
 app.get('/users/', bearerAuth, aclMiddleWare('read'), getUserDetails);
