@@ -8,13 +8,19 @@ const SECRET = 'mytokensecret';
  * defines actions specified for each role 
  */
 let roles = {
- 
+  user: ['read'],
+  writer: ['read', 'create'],
+  editor: ['read', 'create', 'update'],
+  admin: ['read', 'create', 'update', 'delete'],
 };
   /**
  * defines the static schema that is used universally as 
  * username and password
  */
-const USERS = mongoose.model('UserModel', {
+const USERS = mongoose.model('CustomerModel', {
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  role: { type: String, required: true, enum: ['user', 'writer', 'editor', 'admin']},
 });
 
 class Model {
