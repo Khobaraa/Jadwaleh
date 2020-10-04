@@ -2,176 +2,173 @@
 
 'use strict';
 const inquirer = require('inquirer');
-const Input = require('./lib/input.js');
 const util = require('util');
 
-// const Choice = require('./lib/choice.js');
-// const choice = new Choice(input);
+const Input = require('./lib/input.js');
+const fillEmptyDB = require('./lib/collections/default.js');
+const template = require('./lib/collections/template-collection');
+const history = require('./lib/collections/history-collection');
+const weekly = require('./lib/collections/weekly-collection');
 
-// const mongoose = require('mongoose');
-// const MONGOOSE_URL = 'mongodb://localhost:27017/choice';
-// mongoose.connect(MONGOOSE_URL, {
-//   useNewUrlParser : true,
-//   useUnifiedTopology : true,
-//   useCreateIndex : true,
-//   useFindAndModify : false
-// });
+const mongoose = require('mongoose');
+const MONGOOSE_URL = 'mongodb://localhost:27017/jadwalla';
+mongoose.connect(MONGOOSE_URL, {
+  useNewUrlParser : true,
+  useUnifiedTopology : true,
+  useCreateIndex : true,
+  useFindAndModify : false
+});
 
-// inquirer variables
-let validTemplates =  {
-  tawjihi: {
-    arabic: {
-      units: [
-      {
-        number: 1,
-        chapters: [1,2,3,4],
-        completed: 0
-      },
-      {
-        number: 2,
-        chapters: [1,2,3],
-        completed: 0
-      },
-      {
-        number: 3,
-        chapters: [1,2],
-        completed: 0
-      },
-      {
-        number: 4,
-        chapters: [1,2],
-        completed: 0
-      }],
-      expectedHours: 300
+const table = {
+  week: [
+    {
+      number: 1,
+      totalHoursWeek: 0,
+      day: [
+        {
+          number: 1,
+          topics: [
+            {
+              name: '',
+              totalHours: 0,
+              completed: 0
+            }
+          ],
+          totalHoursDay: 0
+        },
+      ]
     },
-    english: {
-      units: [
-      {
-        number: 1,
-        chapters: [1],
-        completed: 0
-      },
-      {
-        number: 2,
-        chapters: [1,2],
-        completed: 0
-      },
-      {
-        number: 3,
-        chapters: [1,2,3],
-        completed: 0
-      },
-      {
-        number: 4,
-        chapters: [1,2,3,4],
-        completed: 0
-      }],
-      expectedHours: 100
-    }
-  },
-  others: {
-    valid: false
-  }
+  ]
 }
 
-let table = {
-  week1: [[], [], [], [], [], [], []],
-}
-
-let template = '';
-let subjectsToChoose = [];
 let date = 1;
+let validTemplates;
+let pastTemplates;
 
-async function getInput() {
-  console.log(subjectsToChoose);
+async function getInput(choice, template) {
   let picked = -1;
+
   do {
+    console.log(util.inspect(choice, false, null, true /* enable colors */))
     const response = await inquirer.prompt([{
       name: 'subject',
       message: `-------------------------- \n Choose a subject to start with a number or enter a command starting with - \n`
     }]);
 
-    let argument = response.subject.split(' ')[0];
+    let [argument, value] = response.subject.split(' ');
     console.log(argument);
     switch(argument) {
+      case '-save':
+      case '-s':
+        console.log('saving week progress');
+        break;
       case '-history':
       case '-h':
-        console.log('getting history at week' + response.subject.split(' ')[1]);
-        getHistory();
+        console.log('getting history at week' + value);
+        // getHistory();
         break;
       case '-date':
       case '-d':
-        date = response.subject.split(' ')[1];
+        date = value;
         console.log('apply date', date)
         break;
       default: 
-        picked = response.subject.split(' ')[0] - 1;
+        picked = argument - 1;
         break;
   }
 
-  } while (!(!isNaN(picked) && picked > 0 && picked < subjectsToChoose.length));
+  } while (!(!isNaN(picked) && picked >= 0 && picked < choice.length));
 
-  console.log("response: ", picked)
-  console.log("Starting Session with ..", subjectsToChoose[picked]);
-  const input = new Input(subjectsToChoose[picked]);
-  validTemplates[template]
-  [subjectsToChoose[picked][0]]
-  .units[subjectsToChoose[picked][1].split(' ')[1] - 1]
-  .completed++; //change completed
-  console.log('Update completion! ', validTemplates[template][subjectsToChoose[picked][0]].units[subjectsToChoose[picked][1].split(' ')[1] - 1]);
+  console.log("chosen: ", picked)
+  console.log("Starting Session with ..", choice[picked]);
+  updateHistory(choice[picked], template);          // instant progress and update history
+  
 
-  let dayWeek = date%7 == 0 ? 7 : date%7;
-  table.week1[dayWeek - 1].push(subjectsToChoose[picked]);
-  subjectsToChoose.splice(picked,1);
-  input.print();
+  // let dayWeek = date%7 == 0 ? 7 : date%7;          // update table weeks to show
+  // table.week1[dayWeek - 1].push(choice[picked]);
+  choice.splice(picked,1);
 
   setTimeout(() => {
     console.log('done studying! >>>>>>>>>>>>>>>>>>>>>')
-    getInput();
+    getInput(choice, template);
   }, 3000)
 }
 
-async function getTemplate() {
-  console.clear();
+async function getTemplate(validTemplates, pastTemplates) {
+  let subjectsToChoose = [];
+  let inputNum = -1;
+
+  console.log('validTemplates \n', validTemplates);
+
   let validTemplateNames = [];
   for (var keys in validTemplates) {
-    validTemplateNames.push(keys)
+    validTemplateNames.push(validTemplates[keys].name);
   }
-  console.log(validTemplateNames);
-
+  console.log('validTemplateNames \n', validTemplateNames);
   do {
     const input = await inquirer.prompt([
-      { name: 'template', message: 'Choose a template from the list \n' }
+      { name: 'template', message: 'Choose a template from the list with number \n' }
     ]);
-    template = input.template.split(' ')[0];
-  } while (!validTemplateNames.includes(template));
-  validTemplates
-  console.log(template);
+    inputNum = input.template.split(' ')[0] - 1;
+  } while (!(!isNaN(inputNum) && inputNum >= 0 && inputNum < validTemplateNames.length));
+  console.log('chosen: ', inputNum);
 
-  for (let keys in validTemplates[template]) {
-    for (let i = 0; i < validTemplates[template][keys].units.length; i++) {
-      for (let j = 0; j < validTemplates[template][keys].units[i].chapters.length; j++) {
-        subjectsToChoose.push([keys, 'Chapter ' + validTemplates[template][keys].units[i].number, 'Lesson ' + validTemplates[template][keys].units[i].chapters[j]]);
+  if (validTemplates[inputNum].subjects.length <= 0) {
+    throw new Error('Invalid Template');
+  }
+
+  for (let k = 0; k < validTemplates[inputNum].subjects.length; k++) {      //fills in the chapters of each unit and lesson as a choice table
+    for (let i = 0; i < validTemplates[inputNum].subjects[k].units.length; i++) {
+      for (let j = 0; j < validTemplates[inputNum].subjects[k].units[i].chapters.length; j++) {
+        subjectsToChoose.push([
+          validTemplates[inputNum].subjects[k].name,
+          'Chapter ' + validTemplates[inputNum].subjects[k].units[i].number, 
+          'Lesson ' + validTemplates[inputNum].subjects[k].units[i].chapters[j
+        ]]);
       }
     }
   }
 
-  getInput();
+  console.log('adding new template attached to the user..');
+  validTemplates[inputNum].name += ' user';
+  console.log(`saving.. >>>>>>>>> ${validTemplates[inputNum].name}`);
+
+  let historyTemplate = validTemplates[inputNum].toObject();      // cant create new mongoose entry before converting it to object
+  await history.create(historyTemplate);
+  console.log(`saved.. >>>>>>>>> \n`);
+  console.log(util.inspect(historyTemplate, false, null, true /* enable colors */))
+
+  getInput(subjectsToChoose, inputNum);
 }
 
-async function startApp() {
-  getTemplate();
 
-  // if (choice.valid() && !input.help) {
-  //   await choice.execute();
-  // } else {
-  //   await choice.help();
-  // } 
+async function startApp() {
+  console.clear();
+  console.log('reading..');
+
+  pastTemplates = await history.read();
+  validTemplates = await template.read();
+  // await template.clear();
+  // await fillEmptyDB();
+  await getTemplate(validTemplates, pastTemplates);
+
   // mongoose.disconnect();
 }
 
 function getHistory() {
-  console.log(util.inspect(table, false, null, true /* enable colors */))
+  // console.log(util.inspect(table, false, null, true /* enable colors */))
 }
+
+async function updateHistory(topic, template) {
+  for (let i = 0; i < validTemplates[template].subjects.length; i++) {
+    if (validTemplates[template].subjects[i].name == topic[0]) {
+      validTemplates[template].subjects[i].units[topic[1].split(' ')[1] - 1].completed++; //change completed
+      console.log('Update completion! ', validTemplates[template].subjects[i].units[topic[1].split(' ')[1] - 1]);
+    }
+  }
+  console.log(`updating.. >>>>>>>>> ${validTemplates[template].name} with id ${validTemplates[template]._id}`);
+  await history.update(validTemplates[template]._id, validTemplates[template]);
+}
+
 
 startApp();
