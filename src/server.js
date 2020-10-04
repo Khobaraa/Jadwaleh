@@ -6,7 +6,12 @@
 // requirements constants
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+require('./apps/chat/chat')(io);
 const cors = require('cors');
+const chatRouter = require('./routes/chat');
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
 const usersModel = require('./auth/models/users-model');
@@ -23,6 +28,7 @@ app.use(express.json());
 app.use(cors());
 app.use(serverErrorHandler);
 app.use(express.static('./public'));
+app.use(chatRouter);
 
 // routes as MiddleWare
 // generic model
@@ -37,6 +43,7 @@ app.get('/users/:id', bearerAuth, aclMiddleWare('read'), getUserDetails);
 app.put('/users/:id', bearerAuth, aclMiddleWare('update'), updateUserDetails);
 app.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetails);
 
+app.use('*', notFoundHandler);
 
 // custom all containing route
 
@@ -44,8 +51,6 @@ app.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetails)
 // const dashboard = require('./routes/dashboard');
 // app.use('/', dashboard);
 
-// error routes
-app.use('*', notFoundHandler);
 
 // ----------------------------------- functions categories ----------------------------------- //
 async function postAuthDetails(req, res, next) {
@@ -109,9 +114,9 @@ function deleteUserDetails(req, res, next) {
 
 
 module.exports = {
-  server: app, 
+  server: http,
   start: port => {
-    let PORT = port || process.env.port || 3000;
-    app.listen(PORT, ()=> console.log(`Listening on port ${PORT}`));
+    let PORT = port || 3000;
+    http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   },
 };
