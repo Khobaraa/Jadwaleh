@@ -20,6 +20,7 @@ app.use(express.static('./public'));
 // const http = require('http');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+
 io.on('connection', (socket) => {
   socket.on('notification', msg => {
     console.log(msg); 
