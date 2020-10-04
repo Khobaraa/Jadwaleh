@@ -1,4 +1,5 @@
 module.exports = (io) => {
+  const chatDB = require('./model/chat-model');
   const chat = io.of('/chatRoom');
   console.log(chat);
   const formatMessage = require('./utils/messages');
@@ -9,11 +10,13 @@ module.exports = (io) => {
     getRoomUsers,
   } = require('./utils/users');
 
-  const botName = 'ChatCord Bot';
+  const botName = 'Jadwaleh Bot';
 
   // Run when client connects
   chat.on('connection', socket => {
-    console.log('GOOOOOOOOOOOOOOOOOOOOOOOOOOD33333333');
+    let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
+    userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
+    console.log('userToken?????',userToken);
     socket.on('joinRoom', ({ username, room }) => {
       const user = userJoin(socket.id, username, room);
 
@@ -41,6 +44,7 @@ module.exports = (io) => {
     socket.on('chatMessage', msg => {
       const user = getCurrentUser(socket.id);
 
+      // chatDB.create({userID:userToken,room:user.room.toLowerCase(),time:new Date.now(),message:msg});
       chat.to(user.room).emit('message', formatMessage(user.username, msg));
     });
 
