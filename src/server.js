@@ -13,7 +13,7 @@ const usersModel = require('./auth/models/users-model');
 const basicAuth = require('./auth/middleware/basic');
 const bearerAuth = require('./auth/middleware/bearer');
 const aclMiddleWare = require('./auth/middleware/acl-middleware');
-const oauth = require('./auth/middleware/oauth')
+const oauth = require('./auth/middleware/oauth');
 
 
 
