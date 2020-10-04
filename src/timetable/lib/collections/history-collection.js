@@ -13,11 +13,11 @@ const schema = mongoose.model('history', {
         {
           number: {type: Number},
           chapters: [],
-          completed: {type: Number, default: 0}
+          completed: {type: Number, default: 0},
         },
-      ]
+      ],
     },
-  ]
+  ],
 });
 
 class History extends Model{

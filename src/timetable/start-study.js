@@ -16,7 +16,7 @@ mongoose.connect(MONGOOSE_URL, {
   useNewUrlParser : true,
   useUnifiedTopology : true,
   useCreateIndex : true,
-  useFindAndModify : false
+  useFindAndModify : false,
 });
 
 const table = {
@@ -31,15 +31,15 @@ const table = {
             {
               name: '',
               totalHours: 0,
-              completed: 0
-            }
+              completed: 0,
+            },
           ],
-          totalHoursDay: 0
+          totalHoursDay: 0,
         },
-      ]
+      ],
     },
-  ]
-}
+  ],
+};
 
 let date = 1;
 let validTemplates;
@@ -49,38 +49,38 @@ async function getInput(choice, template) {
   let picked = -1;
 
   do {
-    console.log(util.inspect(choice, false, null, true /* enable colors */))
+    console.log(util.inspect(choice, false, null, true /* enable colors */));
     const response = await inquirer.prompt([{
       name: 'subject',
-      message: `-------------------------- \n Choose a subject to start with a number or enter a command starting with - \n`
+      message: `-------------------------- \n Choose a subject to start with a number or enter a command starting with - \n`,
     }]);
 
     let [argument, value] = response.subject.split(' ');
     console.log(argument);
     switch(argument) {
-      case '-save':
-      case '-s':
-        console.log('saving week progress');
-        break;
-      case '-history':
-      case '-h':
-        console.log('getting history at week' + value);
-        // getHistory();
-        break;
-      case '-date':
-      case '-d':
-        date = value;
-        console.log('apply date', date)
-        break;
-      default: 
-        picked = argument - 1;
-        break;
-  }
+    case '-save':
+    case '-s':
+      console.log('saving week progress');
+      break;
+    case '-history':
+    case '-h':
+      console.log('getting history at week' + value);
+      // getHistory();
+      break;
+    case '-date':
+    case '-d':
+      date = value;
+      console.log('apply date', date);
+      break;
+    default: 
+      picked = argument - 1;
+      break;
+    }
 
   } while (!(!isNaN(picked) && picked >= 0 && picked < choice.length));
 
-  console.log("chosen: ", picked)
-  console.log("Starting Session with ..", choice[picked]);
+  console.log('chosen: ', picked);
+  console.log('Starting Session with ..', choice[picked]);
   updateHistory(choice[picked], template);          // instant progress and update history
   
 
@@ -89,9 +89,9 @@ async function getInput(choice, template) {
   choice.splice(picked,1);
 
   setTimeout(() => {
-    console.log('done studying! >>>>>>>>>>>>>>>>>>>>>')
+    console.log('done studying! >>>>>>>>>>>>>>>>>>>>>');
     getInput(choice, template);
-  }, 3000)
+  }, 3000);
 }
 
 async function getTemplate(validTemplates, pastTemplates) {
@@ -107,7 +107,7 @@ async function getTemplate(validTemplates, pastTemplates) {
   console.log('validTemplateNames \n', validTemplateNames);
   do {
     const input = await inquirer.prompt([
-      { name: 'template', message: 'Choose a template from the list with number \n' }
+      { name: 'template', message: 'Choose a template from the list with number \n' },
     ]);
     inputNum = input.template.split(' ')[0] - 1;
   } while (!(!isNaN(inputNum) && inputNum >= 0 && inputNum < validTemplateNames.length));
@@ -124,7 +124,7 @@ async function getTemplate(validTemplates, pastTemplates) {
           validTemplates[inputNum].subjects[k].name,
           'Chapter ' + validTemplates[inputNum].subjects[k].units[i].number, 
           'Lesson ' + validTemplates[inputNum].subjects[k].units[i].chapters[j
-        ]]);
+          ]]);
       }
     }
   }
@@ -136,7 +136,7 @@ async function getTemplate(validTemplates, pastTemplates) {
   let historyTemplate = validTemplates[inputNum].toObject();      // cant create new mongoose entry before converting it to object
   await history.create(historyTemplate);
   console.log(`saved.. >>>>>>>>> \n`);
-  console.log(util.inspect(historyTemplate, false, null, true /* enable colors */))
+  console.log(util.inspect(historyTemplate, false, null, true /* enable colors */));
 
   getInput(subjectsToChoose, inputNum);
 }

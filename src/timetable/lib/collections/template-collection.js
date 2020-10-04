@@ -13,11 +13,11 @@ const schema = mongoose.model('template', {
         {
           number: {type: Number},
           chapters: [Number],
-          completed: {type: Number, default: 0}
+          completed: {type: Number, default: 0},
         },
-      ]
+      ],
     },
-  ]
+  ],
 });
 
 class Template extends Model{
