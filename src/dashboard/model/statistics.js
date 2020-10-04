@@ -17,6 +17,7 @@ module.exports = async function () {
 function statistics (course) {
   let result ={}, total = 0 , hours = 0;
   result['name'] = course.name;
+  result['hours'] = course.expectedHours;
   course.chapters.forEach(chapter => {
       
     if(chapter.state === 'completed'){

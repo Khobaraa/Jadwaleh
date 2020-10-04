@@ -9,7 +9,8 @@ router.get('/dashboard', getDashboard);
 async function getDashboard(req,res,next){
   try{
     let courses = await statistics();
-    res.send(courses);
+    res.render('dashboard', {courses:courses});
+    // res.send(courses);
   } catch(e){
     next(e);
   }

@@ -9,6 +9,7 @@ const app = express();
 const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+app.set('view engine', 'ejs');
 
 require('./apps/chat/chat')(io);
 const chatRouter = require('./routes/chat');
@@ -63,6 +64,11 @@ io.on('connection', (socket) => {
 // For dashboard
 const dashboard = require('./routes/dashboard');
 app.use('/', dashboard);
+
+//For template
+const template = require('./routes/template');
+app.use('/', template);
+
 // For notification
 // const notification = require('./notification/notification');
 // app.use('/', notification);
