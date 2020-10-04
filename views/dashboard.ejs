@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        li{
+            list-style: none;
+        }
+        .card {
+            box-shadow: 5px 5px 5px 5px #C0C0C0;
+            padding: 20px;
+            margin: 10px;
+            background-color: #FDEDEC;
+        }
+        .container {
+            width: 20%;
+            padding: 30px
+        }
+
+        .list-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul class="list-container">
+        <% courses.forEach(course => { %>
+        <li class="container">
+            <section class="card">
+                <h2>Course: <%= course.name %></h2>
+                <h2>Total time: <%= course.hours %> hours </h2>
+                <h2>Time spent: <%= course.spentHours %> hours</h2>
+                <h2>progress: <%= course.progress %> %</h2>
+            </section>
+        </li>
+        <%})%>
+    </ul>
+</body>
+
+</html>
