@@ -5,6 +5,7 @@ const Model = require('../mongo.js');
 
 const schema = mongoose.model('history', {
   name: {type: String, require: true},
+  userId: {type:String},
   subjects: [
     {
       name: {type: String},
