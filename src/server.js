@@ -8,6 +8,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const bodyParser = require('body-parser');
 
 require('./apps/chat/chat')(io);
 const cors = require('cors');
@@ -19,12 +20,18 @@ const basicAuth = require('./auth/middleware/basic');
 const bearerAuth = require('./auth/middleware/bearer');
 const aclMiddleWare = require('./auth/middleware/acl-middleware');
 const oauth = require('./auth/middleware/oauth');
+const { json } = require('express');
 
 
 
 
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true,
+})); 
+
 app.use(cors());
 app.use(serverErrorHandler);
 app.use(express.static('./public'));
@@ -34,7 +41,7 @@ app.use(chatRouter);
 // generic model
 app.post('/signup', postAuthDetails);
 app.post('/signin', basicAuth, verifyAuthDetails);
-app.get("/oauth", oauth, (req, res) => {
+app.get('/oauth', oauth, (req, res) => {
   res.status(200).send(req.token);
 });
 

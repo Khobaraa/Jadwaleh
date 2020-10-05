@@ -17,6 +17,9 @@ class Model {
       return this.schema.find({});
     }
   }
+  getNumberOfLastMessagesByRoom(room,number){
+    return this.schema.find(room).sort({ unixTime: 'desc'}).limit(number);
+  }
 
   //   update(_id, record) {
   //     return this.schema.findByIdAndUpdate(_id, record);
