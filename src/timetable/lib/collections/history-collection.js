@@ -7,18 +7,22 @@ const schema = mongoose.model('history', {
   name: {type: String, require: true},
   userId: {type:String},
   subjects: [
+
     {
-      name: {type: String},
-      expectedHours: {type: Number, default: 200},
-      units: [
+      name: { type: String },
+      expectedHours: { type: Number },
+      noOfChapters: { type: Number },
+      chapters: [
         {
-          number: {type: Number},
-          chapters: [],
-          completed: {type: Number, default: 0},
+          name: { type: String },
+          duration: { type: Number },
+          state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
         },
       ],
+      isCompleted: { type: Boolean },
     },
   ],
+  student_id: { type: String, required: true },
 });
 
 class History extends Model{

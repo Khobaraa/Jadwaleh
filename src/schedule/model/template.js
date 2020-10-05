@@ -1,9 +1,8 @@
 'use strict';
-// require the schema and move all notes crud operations
-const mongoose = require('mongoose');
-const Model = require('../mongo.js');
 
-const schema = mongoose.model('template', {
+const mongoose = require('mongoose');
+
+const Template = mongoose.Schema({
   name: {
     type: String, required: true, enum: ['Scientific Stream', 'Literary Stream', 'Industrial Stream'],
   },
@@ -16,6 +15,7 @@ const schema = mongoose.model('template', {
         {
           name: { type: String },
           duration: { type: Number },
+          date : {type: Date},
           state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
         },
       ],
@@ -25,11 +25,5 @@ const schema = mongoose.model('template', {
   student_id: { type: String, required: true },
 });
 
-class Template extends Model{
-  constructor() {
-    super(schema);
-  }
 
-}
-
-module.exports = new Template;
+module.exports = mongoose.model('Template', Template);

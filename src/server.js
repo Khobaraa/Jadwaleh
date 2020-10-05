@@ -6,10 +6,15 @@
 // requirements constants
 const express = require('express');
 const cors = require('cors');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+app.set('view engine', 'ejs');
+
+require('./apps/chat/chat')(io);
+const chatRouter = require('./routes/chat');
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
 const authRouter =  require('./routes/auth-router.js');
-
 const app = express();
 
 // Global MiddleWare where you could call it anywhere and has a global scope
@@ -20,11 +25,11 @@ app.use(serverErrorHandler);
 app.use('*', notFoundHandler);
 app.use(express.static('./public'));
 
-
 module.exports = {
-  server: app, 
+  server: http,
   start: port => {
-    let PORT = port || process.env.port || 3000;
-    app.listen(PORT, ()=> console.log(`Listening on port ${PORT}`));
+    let PORT = port || 3000;
+    http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   },
+  http : http,
 };
