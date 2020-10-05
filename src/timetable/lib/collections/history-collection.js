@@ -1,7 +1,7 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongo.js');
+const Model = require('../mongoTable.js');
 
 const schema = mongoose.model('history', {
   name: {
@@ -22,7 +22,7 @@ const schema = mongoose.model('history', {
       isCompleted: { type: Boolean },
     },
   ],
-  student_id: { type: String, required: true },
+  student_id: { type: String, required: true, unique: true, sparse: true},
 });
 
 class History extends Model{
