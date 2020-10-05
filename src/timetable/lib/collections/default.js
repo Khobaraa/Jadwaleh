@@ -11,7 +11,7 @@ async function fillEmptyDB() {
   console.log('saving..');
 
   console.log('inserting bad..');
-  let bad = await template.create(badTemplate);
+  await template.create(badTemplate);
   console.log('saving..');
 
   console.log(util.inspect(saved, false, null, true /* enable colors */));
@@ -19,64 +19,131 @@ async function fillEmptyDB() {
 }
 
 const defaultTemplate = {
-  name: 'Tawjihi',
-  subjects: [
+  name: 'Scientific Stream',
+  courses: [
     {
-      name: 'Arabic',
-      expectedHours: 300,
-      units: [
+      name: 'Physics',
+      expectedHours: 150,
+      noOfChapters: 3,
+      chapters: [
         {
-          number: 1,
-          chapters: [1,2,3,4],
-          completed: 0,
+          name: 'chapter1',
+          duration: 1,
+          state: 'completed',
         },
         {
-          number: 2,  
-          chapters: [1,2,3],
-          completed: 0,
+          name: 'chapter2',
+          duration: 2,
+          state: 'completed',
         },
         {
-          number: 3,
-          chapters: [1,2],
-          completed: 0,
+          name: 'chapter3',
+          duration: 1,
+          state: 'in-progress',
+        },
+      ],
+      isCompleted: false,
+    },
+    {
+      name: 'Mathematics',
+      expectedHours: 100,
+      noOfChapters: 3,
+      chapters: [
+        {
+          name: 'chapter1',
+          duration: 2,
+          state: 'completed',
         },
         {
-          number: 4,
-          chapters: [1,2],
-          completed: 0,
-        }],
+          name: 'chapter2',
+          duration: 1,
+          state: 'completed',
+        },
+        {
+          name: 'chapter3',
+          duration: 3,
+          state: 'in-progress',
+        },
+      ],
+      isCompleted: false,
+    },
+    {
+      name: 'Chemistry',
+      expectedHours: 150,
+      noOfChapters: 3,
+      chapters: [
+        {
+          name: 'chapter1',
+          duration: 1,
+          state: 'completed',
+        },
+        {
+          name: 'chapter2',
+          duration: 2,
+          state: 'completed',
+        },
+        {
+          name: 'chapter3',
+          duration: 2,
+          state: 'completed',
+        },
+      ],
+      isCompleted: true,
+    },
+    {
+      name: 'Biology',
+      expectedHours: 100,
+      noOfChapters: 3,
+      chapters: [
+        {
+          name: 'chapter1',
+          duration: 3,
+          state: 'completed',
+        },
+        {
+          name: 'chapter2',
+          duration: 2,
+          state: 'completed',
+        },
+        {
+          name: 'chapter3',
+          duration: 1,
+          state: 'in-progress',
+        },
+      ],
+      isCompleted: false,
     },
     {
       name: 'English',
-      expectedHours: 250,
-      units: [
+      expectedHours: 100,
+      noOfChapters: 3,
+      chapters: [
         {
-          number: 1,
-          chapters: [1],
-          completed: 0,
+          name: 'chapter1',
+          duration: 2,
+          state: 'completed',
         },
         {
-          number: 2,  
-          chapters: [1,2],
-          completed: 0,
+          name: 'chapter2',
+          duration: 1,
+          state: 'not-studied',
         },
         {
-          number: 3,
-          chapters: [1,2,3],
-          completed: 0,
+          name: 'chapter3',
+          duration: 3,
+          state: 'not-studied',
         },
-        {
-          number: 4,
-          chapters: [1,2,3,4],
-          completed: 0,
-        }],
+      ],
+      isCompleted: false,
     },
   ],
+  student_id: '5f79cd4995eecc07d8a37dfa',
 };
 
 const badTemplate = {
-  name: 'bad',
-  subjects: [],
+  name: 'Literary Stream',
+  courses: [],
+  student_id: 'badStudent',
 };
 
 
