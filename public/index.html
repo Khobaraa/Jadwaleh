@@ -38,18 +38,15 @@
     <!-- ///////////////notification/////////////////// -->
 
     <form action="">
-      <input type="text" id="m">
-      <input type="submit" value="send">
+      <input type="submit" value="send notification">
     </form>
 
     <script>
       $(function () {
         var socket = io();
         $('form').submit(function (e) {
-          console.log($('#m').val())
           e.preventDefault(); 
-          socket.emit('notification', $('#m').val());
-          $('#m').val('');
+          socket.emit('notification', 'new notification');
           return false;
         });
       });

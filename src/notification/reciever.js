@@ -1,16 +1,25 @@
-'use strict';
 
-const express = require('express');
-const router = express.Router();
-const events = require('./events');
+// 'use strict';
 
-events.on('signin', username => console.log('Welcome back, ', username));
+// const express = require('express');
+// const app = express.Router();
+// var io = require('socket.io')();
 
-router.get('/foo', (req,res) => {
-//   events.emit('pickup', {payload:'ppppppp'});
-});
+// // app.get('/notification', function(req, res) {
+// //   res.send('Hey');
+// // });
 
-module.exports = router;
+
+// io.on('connection', function (socket) {
+//   socket.on( 'new_notification', function( data ) {
+//     console.log(data.title,data.message);
+//     io.sockets.emit( 'show_notification', { 
+//       message: data.message, 
+//     });
+//   });
+// });
+
+// module.exports = app;
 // module.exports = function (io) {
 //   //Socket.IO
 //   io.on('connection', function (socket) {
