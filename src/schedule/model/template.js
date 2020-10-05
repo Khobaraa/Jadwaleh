@@ -15,6 +15,7 @@ const Template = mongoose.Schema({
         {
           name: { type: String },
           duration: { type: Number },
+          date : {type: Date},
           state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
         },
       ],
