@@ -11,8 +11,12 @@ const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 
 require('./apps/chat/chat')(io);
+require('./apps/wall/wall')(io);
+
 const cors = require('cors');
 const chatRouter = require('./routes/chat');
+const wallRouter = require('./routes/wall');
+
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
 const usersModel = require('./auth/models/users-model');
@@ -36,6 +40,8 @@ app.use(cors());
 app.use(serverErrorHandler);
 app.use(express.static('./public'));
 app.use(chatRouter);
+app.use(wallRouter);
+
 
 // routes as MiddleWare
 // generic model

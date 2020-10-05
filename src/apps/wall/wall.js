@@ -1,78 +1,48 @@
 module.exports = (io) => {
-  const chatDB = require('./model/chat-model');
-  const wall = io.of('/wall');
+  const events = require('events');
+  var eventEmitter = new events.EventEmitter();
+  const wallDB = require('./model/wall-model');
+  const giveSupport = io.of('/wall/give-support');
   const moment = require('moment');
+  const wall = io.of('/wall/');
 
-  const formatMessage = require('./utils/messages');
-  const {
-    userJoin,
-    getCurrentUser,
-    userLeave,
-    getRoomUsers,
-  } = require('./utils/users');
+  wall.on('connection', async socket => {
+    // let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
+    // userToken = userToken.substring(userToken.indexOf('ownerId=')).split(';')[0].split('=')[1];
+    // let ownerId = userToken;
+    let ownerId ='3344434343434';
+    let payload = await wallDB.get({ownerId});
+    wall.to(socket.id).emit('history',payload);
+    eventEmitter.on('typing', val => {
+      wall.to(socket.id).emit('typing',val);
+    });
+    eventEmitter.on('newText',payload => {
+      wall.to(socket.id).emit('newText',payload);
+    });
 
-  const botName = 'Jadwaleh Bot';
-
+  });
   // Run when client connects
-  wall.on('connection', socket => {
-    // let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
-    // userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
-    // console.log('userToken?????',userToken);
+  giveSupport.on('connection', socket => {
+    console.log('joined');
+    socket.on('userId', async (ownerId) => {
+      socket.join(ownerId);
+      socket.on('addToWall', async (text) => {
+        let payload = await wallDB.create({ ownerId, unixTime: Date.now(), text });
+        eventEmitter.emit('typing',false);
+        // eventEmitter.emit('notification','Someone Posted on Your Wall');
+        eventEmitter.emit('newText',payload);
 
-    socket.on('joinRoom', async ({ room }) => {
-      let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
-      userToken = userToken.substring(userToken.indexOf('token=')).split(';')[0].split('=')[1];
-      let username = userToken;/////////////////////////////////
-      const user = userJoin(socket.id, username, room);
-
-      socket.join(user.room);
-
-      // send Last50MessagesByRoom
-      let last50Messages = await chatDB.getNumberOfLastMessagesByRoom({ room: user.room.toLowerCase() }, 50);
-      socket.emit('history', last50Messages.reverse());
-      // Welcome current user
-      socket.emit('message', formatMessage(botName, 'Welcome to Chat!'));
-
-      // Broadcast when a user connects
-      socket.broadcast
-        .to(user.room)
-        .emit(
-          'message',
-          formatMessage(botName, `${user.username} has joined the chat`),
-        );
-
-      // Send users and room info
-      wall.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room),
+        
+        giveSupport.in(ownerId).emit('notification', payload);
       });
     });
-
-    // Listen for chatMessage
-    socket.on('chatMessage', msg => {
-      const user = getCurrentUser(socket.id);
-
-      chatDB.create({ username: user.username, room: user.room.toLowerCase(), unixTime: Date.now(), time: moment().format('h:mm a'), text: msg });
-      wall.to(user.room).emit('message', formatMessage(user.username, msg));
+    socket.on('typing',val=> {
+      eventEmitter.emit('typing',val);
     });
-
-    // Runs when client disconnects
-    socket.on('disconnect', () => {
-      const user = userLeave(socket.id);
-
-      if (user) {
-        wall.to(user.room).emit(
-          'message',
-          formatMessage(botName, `${user.username} has left the chat`),
-        );
-
-        // Send users and room info
-        wall.to(user.room).emit('roomUsers', {
-          room: user.room,
-          users: getRoomUsers(user.room),
-        });
-      }
+    socket.on('disconnect',()=>{
+      eventEmitter.emit('typing',false);
     });
+    
   });
 
 
