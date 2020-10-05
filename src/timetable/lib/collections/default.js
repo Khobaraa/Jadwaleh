@@ -11,7 +11,7 @@ async function fillEmptyDB() {
   console.log('saving..');
 
   console.log('inserting bad..');
-  let bad = await template.create(badTemplate);
+  await template.create(badTemplate);
   console.log('saving..');
 
   console.log(util.inspect(saved, false, null, true /* enable colors */));
@@ -141,8 +141,9 @@ const defaultTemplate = {
 };
 
 const badTemplate = {
-  name: 'bad',
-  subjects: [],
+  name: 'Literary Stream',
+  courses: [],
+  student_id: 'badStudent',
 };
 
 

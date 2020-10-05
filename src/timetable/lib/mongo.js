@@ -22,7 +22,7 @@ class Model {
       let newRecord = new this.schema(record);
       return newRecord.save();
     }
-    return 'Template Exists!';
+    return userDB;
   }
   /**
    * gets the specified ID from mongoose db
