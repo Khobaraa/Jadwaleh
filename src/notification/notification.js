@@ -1,25 +1,12 @@
 'use strict';
 
-// const express = require('express');
-// const router = express.Router();
-// const io = require('socket.io');
+const mongoose = require('mongoose');
 
-// router.get('/notification', getNotified);
+const Notification = mongoose.Schema({
+  text: { type: String, required: true },
+  time:{type : Date, default: Date.now },
+  student_id: { type: String, required: true },
+});
 
-// async function getNotified(req,res,next){
-//   console.log('12testingggg');
-//   try{
-    
-//     io.on('whatever', data => {
-//       console.log(data);
-//       io.emit('whatever', data); 
 
-//     });
-    
-//   } catch(e){
-//     next(e);
-//   }
-  
-// }
-
-// module.exports = router;
+module.exports = mongoose.model('Notification', Notification);

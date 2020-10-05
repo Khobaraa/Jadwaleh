@@ -2,15 +2,23 @@
 
 const express = require('express');
 const router = express.Router();
-const statistics = require('../dashboard/model/statistics');
+const events = require('../notification/events');
+const statistics = require('../dashboard/statistics');
+const basicAuth = require('../auth/middleware/basic');
 
-router.get('/dashboard', getDashboard);
+router.get('/dashboard', basicAuth, getDashboard);
 
 async function getDashboard(req,res,next){
   try{
-    let courses = await statistics();
-    res.render('dashboard', {courses:courses});
-    // res.send(courses);
+    let courses = await statistics(req.cookies.userId);
+    let total =0 , progress = 0;
+    courses.forEach( course => {
+      total += course.progress;
+    });
+    progress = total/ courses.length;
+    events.emit('summary',req.cookies.userId, progress );
+    // res.render('dashboard', {courses:courses});
+    res.send(courses);
   } catch(e){
     next(e);
   }

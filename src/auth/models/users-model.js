@@ -102,8 +102,9 @@ class Model {
     let token = jwt.sign({
       username: user.username,
       actions: roles[user.role],
+      userId : user._id, 
     }, SECRET);
-    console.log(token);
+    console.log('token :',token);
     return token;
   }
   /**

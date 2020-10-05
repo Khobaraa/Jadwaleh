@@ -19,7 +19,7 @@ server.start(3000);
 
 // http server for socket.io
 
-// server.http.listen(PORT, () => {
+// server.http.listen(3000, () => {
 //   console.log('http server connected');
 // });
 
