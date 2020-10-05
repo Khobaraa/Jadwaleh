@@ -1,6 +1,6 @@
 'use strict';
 
-const template = require('../../schedule/model/template');
+const template = require('../schedule/model/template');
 
 module.exports = async function () {
   let data = await template.findOne({student_id :'5f79cd4995eecc07d8a37dfa'});

@@ -7,22 +7,22 @@ const bearerAuth = require('../auth/middleware/bearer');
 const aclMiddleWare = require('../auth/middleware/acl-middleware');
 const oauth = require('../auth/middleware/oauth');
 const session = require('express-session');
-
 const router = express.Router();
+const events = require('../notification/events');
 
 // routes as MiddleWare
 // generic model
 router.post('/signup', postAuthDetails);
 router.post('/signin', basicAuth, verifyAuthDetails);
-router.get("/oauth", oauth, (req, res) => {
+router.get('/oauth', oauth, (req, res) => {
   res.status(200).send(req.token);
 });
 router.use(session({
-    secret: 'secret-key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true } 
-  }));
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true },
+}));
 
 router.get('/users/', bearerAuth, aclMiddleWare('read'), getUserDetails);
 router.get('/users/:id', bearerAuth, aclMiddleWare('read'), getUserDetails);
@@ -47,12 +47,12 @@ async function postAuthDetails(req, res, next) {
     next(err);
   });
 }
-
 function verifyAuthDetails(req, res, next) {
   if (req.token) {
     res.cookie('token',req.token);
     res.cookie('userId',`${req.user._id}`);
-    console.log('userId', req.user._id)
+    events.emit('signin',req.user._id );
+    console.log('userId', req.user._id);
     res.status(200).send({
       token: req.token,
       user: req.user,

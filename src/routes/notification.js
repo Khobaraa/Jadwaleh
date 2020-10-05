@@ -1,23 +1,63 @@
 'use strict';
 
 const express = require('express');
-const app = express.Router();
-var io = require('socket.io')();
+const router = express.Router();
+const events = require('../notification/events');
+const Notification = require('../notification/notification');
+require('./auth-router');
 
-app.get('/', function(req, res) {
-  res.send('Hey');
+let cookie;
+events.on('signin', async data => {
+  const notification = {
+    text: 'Welcome back' ,
+    time: new Date() ,
+    student_id : data,
+  };
+  await Notification.create(notification);
 });
 
 
-io.on('connection', function (socket) {
-  socket.on( 'new_notification', function( data ) {
-    console.log(data.title,data.message);
-    io.sockets.emit( 'show_notification', { 
-      title: data.title, 
-      message: data.message, 
-      icon: data.icon, 
-    });
-  });
+events.on('congrats', async data=> {
+  const notification = {
+    text: 'Great progress!! Keep it up' ,
+    time: new Date() ,
+    student_id : cookie,
+  };
+  await Notification.create(notification); 
 });
 
-module.exports = app;
+events.on('summary', async (student, sum) => {
+  const notification = {
+    text: `You have made ${sum} progress`,
+    time: new Date() ,
+    student_id : student,
+  };
+  await Notification.create(notification); 
+
+});
+
+events.on('reminder', async (student, reminder) => {
+  //when will the use get this notification?
+  const notification = {
+    text: 'Hey, Are you there?! We think you might be beyond schedule',
+    time: new Date() ,
+    student_id : student,
+  };
+  await Notification.create(notification); 
+});
+
+events.on('wall-change', post => console.log('Someone wrote on your wall', post));
+events.on('message', msg => console.log('You have new messages, ', msg));
+
+
+router.get('/notifications', async (req,res,next) => {
+  try {
+    let data = await Notification.find({ student_id: req.cookies.userId });
+    cookie =  req.cookies.userId;
+    res.send(data);
+  } catch (e) {
+    next(e);
+  }
+});
+
+module.exports = router;
