@@ -50,14 +50,17 @@ app.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetails)
 // const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
+
   socket.on('notification', msg => {
     console.log(msg); 
   });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
-  });
+  });  
 });
+
+
 
 // custom all containing route
 
@@ -70,8 +73,11 @@ const template = require('./routes/template');
 app.use('/', template);
 
 // For notification
-// const notification = require('./notification/notification');
-// app.use('/', notification);
+const notification = require('./routes/notification');
+app.use('/', notification);
+
+const test = require('./notification/reciever');
+app.use('/',test);
 
 app.use('*', notFoundHandler);
 // ----------------------------------- functions categories ----------------------------------- //
@@ -141,5 +147,4 @@ module.exports = {
     let PORT = port || 3000;
     http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
   },
-  http : http,
 };

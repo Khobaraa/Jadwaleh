@@ -4,7 +4,7 @@ const express = require('express');
 const app = express.Router();
 var io = require('socket.io')();
 
-app.get('/', function(req, res) {
+app.get('/notification', function(req, res) {
   res.send('Hey');
 });
 
