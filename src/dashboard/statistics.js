@@ -7,6 +7,7 @@ module.exports = async function (userId) {
   let statArr = [];
   try {
     data = data[0].toObject();
+
     data.courses.forEach(course => {
       let result = statistics(course);
       statArr.push(result);
