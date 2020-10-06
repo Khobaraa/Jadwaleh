@@ -5,20 +5,15 @@
   * [Wireframe](assets/wireframe.md)
   * [UML](assets/uml.md)
 * [Software Requirements](requirements.md)
-* [SignUp-SignIn](signup-signin-1.md)
 * [Oauth with Google](oauth-with-google.md)
 
 ## Get Sarted <a id="introduction"></a>
 
-* [Routes](introduction/routes.md)
-* [Modules](introduction/modules/README.md)
-  * [Authorization](introduction/modules/authorization.md)
-  * [Organizer](introduction/modules/organizer.md)
-  * [Data Pipeline](introduction/modules/data-pipeline.md)
-  * [Chat](introduction/modules/chat/README.md)
-    * [Untitled](introduction/modules/chat/untitled.md)
-
----
-
-* [Schemas](schemas.md)
+* [Routes](introduction/signup-signin-1/README.md)
+  * [User routes](introduction/signup-signin-1/routes.md)
+  * [Student routes](introduction/signup-signin-1/student-routes.md)
+  * [Service routes](introduction/signup-signin-1/service-routes.md)
+* [Schemas](introduction/schemas.md)
+* [Modules](introduction/modules.md)
+* [Data Pipeline](introduction/data-pipeline.md)
 
