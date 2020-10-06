@@ -15,7 +15,7 @@ router.get('/dashboard', bearerAuth, getDashboard);
 ```
 {% endcode %}
 
-{% api-method method="get" host="http://localhost:3000/dashboard" path="" %}
+{% api-method method="get" host="http://localhost:3000" path="/" %}
 {% api-method-summary %}
 Dashboard
 {% endapi-method-summary %}
