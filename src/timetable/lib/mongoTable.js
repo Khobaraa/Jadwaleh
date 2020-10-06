@@ -29,6 +29,7 @@ class Model {
    * @param {String} _id is a mongoose generated ID to search for
    */
   read(_id) {
+    console.log(_id);
     let obj = _id ? {student_id: _id} : {};    
     return this.schema.find(obj, '-_id', function(err, entity) {
       console.log('entity', entity);
