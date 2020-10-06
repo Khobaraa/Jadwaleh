@@ -59,7 +59,7 @@ describe('Dashboard test', () => {
     expect(!!signupResponse.text).toBeTruthy();
   });
 
-  it('can successfully return the dashboad values', async () => {
+  it('can successfully return statistics of the student', async () => {
     const dash = [ { name: 'Physics', hours: 150, spentHours: 0, progress: 0 } ];
     await schema.create(student);
     let result = await statistics(student.student_id);
