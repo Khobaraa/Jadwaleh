@@ -11,7 +11,6 @@ module.exports = async function (userId) {
     data.courses.forEach(course => {
       let result = statistics(course);
       statArr.push(result);
-
       
     });
     return statArr;
