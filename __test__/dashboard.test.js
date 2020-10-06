@@ -5,11 +5,7 @@ const { server } = require('../src/server');
 const agent = supergoose(server);
 const base64 = require('base-64');
 const jwt = require('jsonwebtoken');
-
-// const events = require('../notification/events');
 const statistics = require('../src/dashboard/statistics');
-// const bearerAuth = require('../auth/middleware/bearer');
-const fill = require('../src/schedule/model/dummydata');
 const schema = require('../src/dashboard/history-collection');
 
 
