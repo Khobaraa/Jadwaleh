@@ -15,7 +15,7 @@
         "!**/node_modules/**",
         "!./src/timetable/**",
         "!./src/apps/**",
-        "!**/*Container.jsx"
+        "!**/*oauth.js"
     ]
 },
   "repository": {
