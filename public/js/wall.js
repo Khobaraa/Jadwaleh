@@ -24,7 +24,6 @@ socket.on('newText', payload => {
   outputMessage(payload);
 });
 
-
 // Message from server
 socket.on('typing', val => {
   if (val) {
@@ -38,7 +37,7 @@ chatForm.addEventListener('submit', e => {
   e.preventDefault();
 
 
-  let text = document.getElementById("supportText").value;
+  let text = document.getElementById('supportText').value;
 
   text = text.trim();
 
@@ -58,9 +57,41 @@ function outputMessage(payload) {
   const div = document.createElement('div');
   const p = document.createElement('p');
   p.innerText = payload.text;
-  let time =  moment(   payload.unixTime).format('MMMM Do YYYY, h:mm a');
+  let time = moment(payload.unixTime).format('MMMM Do YYYY, h:mm a');
   p.innerHTML += `<span>          ${time}</span>`;
   div.appendChild(p);
   chatForm.appendChild(div);
 }
 
+var qrcode = new QRCode(document.getElementById('qrcode'), {
+  text: "http://jindo.dev.naver.com/collie",
+  width: 128,
+  height: 128,
+  colorDark : "#00f",
+  colorLight : "#ffffff",
+  correctLevel : QRCode.CorrectLevel.H
+});
+
+function makeCode() {
+  var elText = document.getElementById('text');
+
+  if (!elText.value) {
+    alert('Input a text');
+    elText.focus();
+    return;
+  }
+
+  qrcode.makeCode(elText.value);
+}
+
+makeCode();
+
+$('#text').
+  on('blur', function () {
+    makeCode();
+  }).
+  on('keydown', function (e) {
+    if (e.keyCode == 13) {
+      makeCode();
+    }
+  });
