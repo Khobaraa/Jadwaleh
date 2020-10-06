@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-let SECRET = 'myserverhasfleas';
+let SECRET = 'mytokensecret';
 
 // Start off with one account: test:test
 let db = {

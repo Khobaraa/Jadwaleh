@@ -3,7 +3,6 @@ description: 'Including Nosql database, multiple schemas, socket.io notification
 ---
 
 # Data Pipeline
-
 ## Getting student dashboard
 
 This application allows you to store your courses information, the hours spent and study progress in the cloud and allows you to access it in any device.

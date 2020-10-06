@@ -5,8 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
+    "lint": "eslint './**/*.js' --ignore-pattern node_modules/",
     "start": "nodemon index.js"
   },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+        "./src/**/*.{js,jsx}",
+        "!**/node_modules/**",
+        "!./src/timetable/**",
+        "!./src/apps/**",
+        "!**/*oauth.js"
+    ]
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Khobaraa/Jadwaleh.git"
@@ -18,6 +29,7 @@
   },
   "homepage": "https://github.com/Khobaraa/Jadwaleh#readme",
   "dependencies": {
+    "@code-fellows/supergoose": "^1.0.11",
     "base-64": "^0.1.0",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
@@ -27,6 +39,8 @@
     "eslint": "^7.10.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "http": "0.0.1-security",
+    "jest": "^26.5.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.0",
     "mongoose": "^5.10.7",
