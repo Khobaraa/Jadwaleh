@@ -2,14 +2,16 @@
 
 const template = require('../schedule/model/template');
 
-module.exports = async function () {
-  let data = await template.findOne({student_id :'5f79cd4995eecc07d8a37dfa'});
+module.exports = async function (id) {
+  let data = await template.findOne({student_id :id});
   let statArr = [];
-  data.courses.forEach(course => {
-    let result = statistics(course);
-    statArr.push(result);
-    
-  });
+  if(data){
+    data.courses.forEach(course => {
+      let result = statistics(course);
+      statArr.push(result);
+      
+    });
+  } 
   return statArr;
 
 };
