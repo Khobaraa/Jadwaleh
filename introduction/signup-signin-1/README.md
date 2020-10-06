@@ -124,7 +124,8 @@ Gmail OAuthentication
 {% endapi-method-summary %}
 
 {% api-method-description %}
-Allows user to login with a click in the homepage, if the email matched the database of users.
+Allows user to login with a click in the homepage, if the email matched the database of users.  
+Redirect "https://accounts.google.com/o/oauth2/v2/auth" to our localhost to make the third party login .
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -144,6 +145,13 @@ returns the token with user encoded info if matches the database info.
 
 ```
 "token": "eyJh********cCI6IkpXVCJ*********IsImFjdGlvbnMiOlsicmVhZCJdLCJ1c2VySWQiOiI1ZjdjZGMyZGNlMjI0YjRlOTZiOTRhMDkiLCJpYXQiOjE2MDIwMTg5NDF9.3Ik0I1FP3ig-PkWBipMKY4wYZQFsOQVGywwHSyg5BTw"
+
+  OR
+
+{
+  "username": "mamdo****@gmail.com",
+  "iat": 1602019724
+}
 ```
 {% endapi-method-response-example %}
 
