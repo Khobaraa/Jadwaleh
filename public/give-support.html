@@ -16,6 +16,14 @@
 		<header class="join-header">
 			<h1><i class="fas fa-smile"></i> Give Support</h1>
 		</header>
+		<form method="POST" action="/signin">
+			<label for="username">username</label>
+			<input type="text" id="username" name="username">
+			<label for="password">password</label>
+			<input type="text" id="password" name="password">
+			<button type="submit">login</button>
+		  </form>
+
 		<main class="join-main">
 			<form id="chat-form">
 				<!-- <div class="form-control">
@@ -31,7 +39,7 @@
 			</form>
 		</main>
 	</div>
-    <script src="/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/give-support.js"></script>
 </body>
 

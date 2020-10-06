@@ -7,6 +7,11 @@ const typingDiv = document.getElementById('typing');
 // eslint-disable-next-line no-undef
 const socket = io('/wall/');
 
+let userId =getUserId(document.cookie);
+
+let sharedLink =window.location.href +'give-support/'+userId;
+console.log(getUserId(document.cookie));
+document.getElementById('text').value=sharedLink;
 // Join chatroom
 // Get room and users
 // socket.on('roomUsers', ({ room, users }) => {
@@ -19,6 +24,7 @@ socket.on('history', payload => {
     outputMessage(val);
   });
 });
+
 socket.on('newText', payload => {
   console.log('newText>>>>>>>>>>', payload);
   outputMessage(payload);
@@ -64,12 +70,12 @@ function outputMessage(payload) {
 }
 
 var qrcode = new QRCode(document.getElementById('qrcode'), {
-  text: "http://jindo.dev.naver.com/collie",
+  text: 'http://jindo.dev.naver.com/collie',
   width: 128,
   height: 128,
-  colorDark : "#00f",
-  colorLight : "#ffffff",
-  correctLevel : QRCode.CorrectLevel.H
+  colorDark: '#00f',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H,
 });
 
 function makeCode() {
@@ -95,3 +101,8 @@ $('#text').
       makeCode();
     }
   });
+
+function getUserId(cookies) {
+  let userId = cookies.substring(cookies.indexOf('userId=')).split('=')[1];
+  return userId;
+}

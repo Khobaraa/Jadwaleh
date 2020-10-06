@@ -3,14 +3,11 @@ module.exports = (io) => {
   var eventEmitter = new events.EventEmitter();
   const wallDB = require('./model/wall-model');
   const giveSupport = io.of('/wall/give-support');
-  const moment = require('moment');
   const wall = io.of('/wall/');
 
   wall.on('connection', async socket => {
-    // let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
-    // userToken = userToken.substring(userToken.indexOf('ownerId=')).split(';')[0].split('=')[1];
-    // let ownerId = userToken;
-    let ownerId ='3344434343434';
+    let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
+    let ownerId = userToken.substring(userToken.indexOf('userId=')).split(';')[0].split('=')[1];
     let payload = await wallDB.get({ownerId});
     wall.to(socket.id).emit('history',payload);
     eventEmitter.on('typing', val => {

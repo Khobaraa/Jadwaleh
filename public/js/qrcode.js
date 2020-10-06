@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-constant-condition */
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-redeclare */

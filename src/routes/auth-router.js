@@ -9,11 +9,11 @@ const oauth = require('../auth/middleware/oauth');
 const session = require('express-session');
 const router = express.Router();
 const events = require('../notification/events');
-
+const header = require('../auth/middleware/header');
 // routes as MiddleWare
 // generic model
 router.post('/signup', postAuthDetails);
-router.post('/signin', basicAuth, verifyAuthDetails);
+router.post('/signin',header('Basic'),basicAuth, verifyAuthDetails);
 router.get('/oauth', oauth, (req, res) => {
   res.status(200).send(req.token);
 });
