@@ -6,6 +6,7 @@
 // requirements constants
 const express = require('express');
 const cors = require('cors');
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 app.set('view engine', 'ejs');
@@ -15,7 +16,6 @@ const chatRouter = require('./routes/chat');
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
 const authRouter =  require('./routes/auth-router.js');
-const app = express();
 
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());

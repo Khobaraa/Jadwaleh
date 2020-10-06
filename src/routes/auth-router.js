@@ -23,6 +23,8 @@ router.use(session({
     saveUninitialized: true,
     cookie: { secure: true } 
   }));
+  // MONGOOSE_URL=mongodb://localhost:27017/food
+  // MONGOOSE_URL=mongodb+srv://admin:admin@cluster0.m6biy.mongodb.net/jadwal?retryWrites=true&w=majority
 
 router.get('/users/', bearerAuth, aclMiddleWare('read'), getUserDetails);
 router.get('/users/:id', bearerAuth, aclMiddleWare('read'), getUserDetails);
