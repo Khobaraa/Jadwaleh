@@ -16,7 +16,9 @@ async function getDashboard(req,res,next){
       total += course.progress;
     });
     progress = total/ courses.length;
-    events.emit('summary',req.cookies.userId, progress );
+    setTimeout(() => { 
+      events.emit('summary',req.cookies.userId, progress );
+    }, 5000);
     // res.render('dashboard', {courses:courses});
     res.send(courses);
   } catch(e){
