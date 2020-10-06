@@ -42,7 +42,7 @@ Includes all requirements to make the app up and running as intended. such:
 
 ### The basic dataflow
 
-It starts with landing &gt;&gt;&gt; login &gt;&gt;&gt; input preferences &gt;&gt;&gt; scheduling &gt;&gt;&gt; output data &gt;&gt;&gt; dashboard. And a separate chat service related to each subject.
+It starts with landing &gt;&gt;&gt; login &gt;&gt;&gt; input preferences &gt;&gt;&gt; scheduling &gt;&gt;&gt; output data &gt;&gt;&gt; dashboard. Along with a separate chat and notification service that is both meaningful and useful.
 
 ## Non-Functional Requirements
 
