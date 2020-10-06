@@ -5,11 +5,7 @@ const { server } = require('../src/server');
 const agent = supergoose(server);
 const base64 = require('base-64');
 const jwt = require('jsonwebtoken');
-
-// const events = require('../notification/events');
 const statistics = require('../src/dashboard/statistics');
-// const bearerAuth = require('../auth/middleware/bearer');
-const fill = require('../src/schedule/model/dummydata');
 const schema = require('../src/dashboard/history-collection');
 
 
@@ -63,7 +59,7 @@ describe('Dashboard test', () => {
     expect(!!signupResponse.text).toBeTruthy();
   });
 
-  it('can successfully return the dashboad values', async () => {
+  it('can successfully return statistics of the student', async () => {
     const dash = [ { name: 'Physics', hours: 150, spentHours: 0, progress: 0 } ];
     await schema.create(student);
     let result = await statistics(student.student_id);
