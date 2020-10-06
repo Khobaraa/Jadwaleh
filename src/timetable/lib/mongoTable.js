@@ -13,24 +13,27 @@ class Model {
    */
   async create(record) {
 
-    console.log('Checking for ', record.name);
+    console.log('Checking for ', record.student_id);
 
-    let userDB = await this.schema.findOne({ name: record.name });
+    let userDB = await this.schema.findOne({ student_id: record.student_id });
     console.log('userDB', userDB);
     if (!userDB) {
       // save user if it does not exist
       let newRecord = new this.schema(record);
       return newRecord.save();
     }
-    return 'Template Exists!';
+    return userDB;
   }
   /**
    * gets the specified ID from mongoose db
    * @param {String} _id is a mongoose generated ID to search for
    */
   read(_id) {
-    let obj = _id ? {_id} : {};    
-    return this.schema.find(obj);
+    console.log(_id);
+    let obj = _id ? {student_id: _id} : {};    
+    return this.schema.find(obj, '-_id', function(err, entity) {
+      console.log('entity', entity);
+    });
   }
   /**
    * updates the specified _id with the record object

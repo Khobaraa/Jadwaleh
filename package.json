@@ -4,7 +4,7 @@
   "description": "## Table of Contents - [About the Project](#about-the-project) - [Wireframes](#Wireframes) - [User Stories](#User-Stories) - [Domain Modeling](#Domain-Modeling) - [Contributors](#Contributors) - [Entity Relationship Diagram](#Entity-Relationship-Diagram) - [License](#license)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --verbose",
     "start": "nodemon index.js"
   },
   "repository": {
@@ -18,20 +18,26 @@
   },
   "homepage": "https://github.com/Khobaraa/Jadwaleh#readme",
   "dependencies": {
-    "ejs": "^3.1.5",
-    "moment": "^2.29.0",
-    "socket.io-client": "^2.3.1",
     "base-64": "^0.1.0",
     "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "eslint": "^7.10.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.0",
     "mongoose": "^5.10.7",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.1",
     "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "@code-fellows/supergoose": "^1.0.11",
+    "jest": "^26.5.0"
   }
 }

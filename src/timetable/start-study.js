@@ -4,14 +4,16 @@
 const inquirer = require('inquirer');
 const util = require('util');
 
+require('dotenv').config();
 const Input = require('./lib/input.js');
 const fillEmptyDB = require('./lib/collections/default.js');
-const template = require('./lib/collections/template-collection');
-const history = require('./lib/collections/history-collection');
-const weekly = require('./lib/collections/weekly-collection');
+const template = require('./lib/collections/template-collection.js');
+const history = require('./lib/collections/history-collection.js');
+const weekly = require('./lib/collections/weekly-collection.js');
+const getUsers = require('./lib/collections/users-model.js');
 
 const mongoose = require('mongoose');
-const MONGOOSE_URL = 'mongodb://localhost:27017/jadwalla';
+const MONGOOSE_URL = process.env.MONGOOSE_URL ;
 mongoose.connect(MONGOOSE_URL, {
   useNewUrlParser : true,
   useUnifiedTopology : true,
@@ -42,14 +44,12 @@ const table = {
 };
 
 let date = 1;
-let validTemplates;
-let pastTemplates;
 
-async function getInput(choice, template) {
+async function getInput(template, list) {
   let picked = -1;
 
   do {
-    console.log(util.inspect(choice, false, null, true /* enable colors */));
+    console.log(util.inspect(list, false, null, true /* enable colors */));
     const response = await inquirer.prompt([{
       name: 'subject',
       message: `-------------------------- \n Choose a subject to start with a number or enter a command starting with - \n`,
@@ -64,8 +64,8 @@ async function getInput(choice, template) {
       break;
     case '-history':
     case '-h':
-      console.log('getting history at week' + value);
-      // getHistory();
+      console.log('getting past table at week' + value);
+      // getTable();
       break;
     case '-date':
     case '-d':
@@ -77,97 +77,154 @@ async function getInput(choice, template) {
       break;
     }
 
-  } while (!(!isNaN(picked) && picked >= 0 && picked < choice.length));
+  } while (!(!isNaN(picked) && picked >= 0 && picked < list.length)); // checks if input is a number and within limit
 
   console.log('chosen: ', picked);
-  console.log('Starting Session with ..', choice[picked]);
-  updateHistory(choice[picked], template);          // instant progress and update history
+  console.log('Starting Session with ..', list[picked]);
+  updateHistory(template, list[picked]);          // instant progress and update history
   
 
   // let dayWeek = date%7 == 0 ? 7 : date%7;          // update table weeks to show
-  // table.week1[dayWeek - 1].push(choice[picked]);
-  choice.splice(picked,1);
+  // table.week1[dayWeek - 1].push(list[picked]);
+  list.splice(picked,1);
 
-  setTimeout(() => {
+  setTimeout(async () => {
     console.log('done studying! >>>>>>>>>>>>>>>>>>>>>');
-    getInput(choice, template);
+    await getInput(template, list);
   }, 3000);
 }
 
-async function getTemplate(validTemplates, pastTemplates) {
-  let subjectsToChoose = [];
-  let inputNum = -1;
-
-  console.log('validTemplates \n', validTemplates);
-
+async function getTemplate(starterTemplates, pastTemplates, chosenUser) {
+  let choice = -1;
   let validTemplateNames = [];
-  for (var keys in validTemplates) {
-    validTemplateNames.push(validTemplates[keys].name);
+  let chosenTemplate = {};
+  let subjectsToChoose = [];
+
+  for (let keys in starterTemplates) {                // pushes both starter and past template into validTemplateNames
+    validTemplateNames.push(starterTemplates[keys].name);
   }
-  console.log('validTemplateNames \n', validTemplateNames);
+  for (let keys in pastTemplates) {
+    validTemplateNames.push(pastTemplates[keys].name);
+  }
+  console.log('Valid Template Names \n', validTemplateNames);
+
   do {
     const input = await inquirer.prompt([
-      { name: 'template', message: 'Choose a template from the list with number \n' },
+      { name: 'template', message: 'Choose a template from the list with a number \n' },
     ]);
-    inputNum = input.template.split(' ')[0] - 1;
-  } while (!(!isNaN(inputNum) && inputNum >= 0 && inputNum < validTemplateNames.length));
-  console.log('chosen: ', inputNum);
+    choice = input.template.split(' ')[0] - 1;
+  } while (!(!isNaN(choice) && choice >= 0 && choice < validTemplateNames.length)); // checks if input is a number and within limit
 
-  if (validTemplates[inputNum].subjects.length <= 0) {
-    throw new Error('Invalid Template');
+  console.log('Chosen: ', validTemplateNames[choice]); // gets the valid choice and gets the template
+  if (choice >= starterTemplates.length) {
+    console.log('Choosing from past template: ', validTemplateNames[choice]);
+    chosenTemplate = pastTemplates[choice - starterTemplates.length];
+  } 
+  else {
+    console.log('Choosing from starter template: ', validTemplateNames[choice]);
+    chosenTemplate = starterTemplates[choice];
+    console.log('chosenTemplate', chosenTemplate);
+    if (chosenTemplate.courses.length <= 0) {
+      console.log('Invalid template ' + choice);
+      await getTemplate(starterTemplates, pastTemplates, chosenUser);
+    } 
+    else {
+      console.log('adding new template attached to the user..', chosenUser);    // uses template name to avoid duplication
+      console.log('adding new template attached to the user..', chosenUser._id);    // uses template name to avoid duplication
+      chosenTemplate.student_id = chosenUser._id;
+      chosenTemplate.name += ' for ' + chosenUser.username;
+      console.log(`saving template to the id.. >>>>>>>>> ${chosenTemplate.student_id}`);
+    
+      let historyTemplate = chosenTemplate.toObject();      // cant create new mongoose entry before 
+      chosenTemplate = await history.create(historyTemplate);   // converting it back from mongoose document to object
+      console.log(util.inspect(historyTemplate, false, null, true /* enable colors */));
+    }
   }
 
-  for (let k = 0; k < validTemplates[inputNum].subjects.length; k++) {      //fills in the chapters of each unit and lesson as a choice table
-    for (let i = 0; i < validTemplates[inputNum].subjects[k].units.length; i++) {
-      for (let j = 0; j < validTemplates[inputNum].subjects[k].units[i].chapters.length; j++) {
-        subjectsToChoose.push([
-          validTemplates[inputNum].subjects[k].name,
-          'Chapter ' + validTemplates[inputNum].subjects[k].units[i].number, 
-          'Lesson ' + validTemplates[inputNum].subjects[k].units[i].chapters[j
-          ]]);
+  for (let k = 0; k < chosenTemplate.courses.length; k++) {      //fills in the chapters of each unit and lesson as a choice table
+    for (let i = 0; i < chosenTemplate.courses[k].chapters.length; i++) {
+      if (!(chosenTemplate.courses[k].chapters[i].state == 'completed')) {
+        subjectsToChoose.push({
+          course: k,
+          chapter: i,
+          info: [
+            chosenTemplate.courses[k].name,
+            chosenTemplate.courses[k].chapters[i].name,
+            'Workload: ' + chosenTemplate.courses[k].chapters[i].duration,
+          ],
+        });
       }
     }
   }
 
-  console.log('adding new template attached to the user..');
-  validTemplates[inputNum].name += ' user';
-  console.log(`saving.. >>>>>>>>> ${validTemplates[inputNum].name}`);
-
-  let historyTemplate = validTemplates[inputNum].toObject();      // cant create new mongoose entry before converting it to object
-  await history.create(historyTemplate);
-  console.log(`saved.. >>>>>>>>> \n`);
-  console.log(util.inspect(historyTemplate, false, null, true /* enable colors */));
-
-  getInput(subjectsToChoose, inputNum);
+  return [chosenTemplate, subjectsToChoose];
 }
 
+async function getUser(users) {
+  let usernames = [];
+  let choice = -1;
+
+  for (let i = 0; i < users.length; i++) {
+    usernames.push(users[i].username);
+  }
+  console.log(usernames);
+
+  do {
+    const input = await inquirer.prompt([
+      { name: 'template', message: 'Choose a user from the list with a number \n' },
+    ]);
+    choice = input.template.split(' ')[0] - 1;
+  } while (!(!isNaN(choice) && choice >= 0 && choice < users.length)); // checks if input is a number and within limit
+  console.log('chosen user', usernames[choice]);
+
+  return users[choice];
+}
+
+async function arrangeSubjects(chosenTemplate, subjectsToChoose) {
+  let choice = -1;
+
+  do {
+    const input = await inquirer.prompt([
+      { name: 'template', message: 'rate difficulty of a subject from 1 - 10 \n' },
+    ]);
+    choice = input.template.split(' ')[0] - 1;
+  } while (!(!isNaN(choice) && choice >= 0 && choice <= 11)); // checks if input is a number and within limit
+
+  chosenTemplate, subjectsToChoose
+  subjects.shift();
+
+  console.log('chosen user', usernames[choice]);
+
+}
 
 async function startApp() {
   console.clear();
   console.log('reading..');
 
-  pastTemplates = await history.read();
-  validTemplates = await template.read();
-  // await template.clear();
+  // await history.clear();
   // await fillEmptyDB();
-  await getTemplate(validTemplates, pastTemplates);
 
-  // mongoose.disconnect();
+  let userList = await getUsers.get();
+  let starterTemplates = await template.read();
+
+  let chosenUser = await getUser(userList);
+  let pastTemplates = await history.read(chosenUser._id);
+
+  let [chosenTemplate, subjectsToChoose] = await getTemplate(starterTemplates, pastTemplates, chosenUser);
+  [chosenTemplate, subjectsToChoose] = await arrangeSubjects(chosenTemplate, subjectsToChoose);
+  await getInput(chosenTemplate, subjectsToChoose);
 }
 
-function getHistory() {
+function getTable() {
   // console.log(util.inspect(table, false, null, true /* enable colors */))
 }
 
-async function updateHistory(topic, template) {
-  for (let i = 0; i < validTemplates[template].subjects.length; i++) {
-    if (validTemplates[template].subjects[i].name == topic[0]) {
-      validTemplates[template].subjects[i].units[topic[1].split(' ')[1] - 1].completed++; //change completed
-      console.log('Update completion! ', validTemplates[template].subjects[i].units[topic[1].split(' ')[1] - 1]);
-    }
-  }
-  console.log(`updating.. >>>>>>>>> ${validTemplates[template].name} with id ${validTemplates[template]._id}`);
-  await history.update(validTemplates[template]._id, validTemplates[template]);
+async function updateHistory(template, topic) {
+  template.courses[topic.course].chapters[topic.chapter].state = 'completed'; //change completed
+  console.log('Update completion! ', template.courses[topic.course].chapters[topic.chapter]);
+
+  console.log(`updating.. >>>>>>>>> ${template.name} with id ${template.student_id}`);
+  await history.update(template._id, template);
 }
 
 

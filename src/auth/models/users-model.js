@@ -17,7 +17,7 @@ let roles = {
  * defines the static schema that is used universally as 
  * username and password
  */
-const USERS = mongoose.model('CustomerModel', {
+const USERS = mongoose.model('Users', {
   username: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true, enum: ['user', 'writer', 'editor', 'admin']},
@@ -74,7 +74,7 @@ class Model {
  * @param {String} _id is a mongoose generated ID to search for
 */
   delete(_id) {  
-    return _id ? USERS.findByIdAndDelete() : Promise.reject();
+    return _id ? USERS.findByIdAndDelete({_id}) : Promise.reject();
   }
 
   /**
@@ -102,8 +102,9 @@ class Model {
     let token = jwt.sign({
       username: user.username,
       actions: roles[user.role],
+      userId : user._id, 
     }, SECRET);
-    console.log(token);
+    console.log('token :',token);
     return token;
   }
   /**

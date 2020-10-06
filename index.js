@@ -1,9 +1,11 @@
 'use strict';
 
-// require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
-const server = require('./src/server.js');
-const MONGOOSE_URL = 'mongodb://localhost:27017/auth-db';
+const server = require('./src/server');
+
+const MONGOOSE_URL = process.env.MONGOOSE_URL;
+
 const mongooseOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -14,3 +16,10 @@ const mongooseOptions = {
 mongoose.connect(MONGOOSE_URL, mongooseOptions);
 
 server.start(3000);
+
+// http server for socket.io
+
+// server.http.listen(3000, () => {
+//   console.log('http server connected');
+// });
+
