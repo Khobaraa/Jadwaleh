@@ -11,10 +11,15 @@ const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-app.set('view engine', 'ejs');
 
 require('./apps/chat/chat')(io);
+require('./apps/wall/wall')(io);
+
+app.set('view engine', 'ejs');
+
 const chatRouter = require('./routes/chat');
+const wallRouter = require('./routes/wall');
+
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
 const authRouter =  require('./routes/auth-router.js');
@@ -28,9 +33,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.use(cors());
 app.use(cookieParser());
-app.use(authRouter);
 app.use(serverErrorHandler);
 app.use(express.static('./public'));
+app.use(wallRouter);
+app.use(authRouter);
 app.use(chatRouter);
 
 ///////////////////////////////////////////

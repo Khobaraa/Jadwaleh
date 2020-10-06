@@ -2,6 +2,8 @@ module.exports = (io) => {
   const chatDB = require('./model/chat-model');
   const chat = io.of('/chatRoom');
   const moment = require('moment');
+  const jwt = require('jsonwebtoken');
+  const SECRET = 'mytokensecret';
 
   const formatMessage = require('./utils/messages');
   const {
@@ -22,7 +24,8 @@ module.exports = (io) => {
     socket.on('joinRoom', async ({ room }) => {
       let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
       userToken = userToken.substring(userToken.indexOf('token=')).split(';')[0].split('=')[1];
-      let username = userToken;/////////////////////////////////
+      let username = jwt.verify(userToken, SECRET).username;
+
       const user = userJoin(socket.id, username, room);
 
       socket.join(user.room);
