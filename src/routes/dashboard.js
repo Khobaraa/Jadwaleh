@@ -11,16 +11,19 @@ router.get('/dashboard', bearerAuth, getDashboard);
 async function getDashboard(req,res,next){
   try{
     let courses = await statistics(req.cookies.userId);
-    let total =0 , progress = 0;
-    courses.forEach( course => {
-      total += course.progress;
-    });
-    progress = total/ courses.length;
-    setTimeout(() => { 
-      events.emit('summary',req.cookies.userId, progress );
-    }, 5000);
-    // res.render('dashboard', {courses:courses});
-    res.send(courses);
+    if(courses){
+      let total =0 , progress = 0;
+      courses.forEach( course => {
+        total += course.progress;
+      });
+      progress = total/ courses.length;
+      setTimeout(() => { 
+        events.emit('summary',req.cookies.userId, progress );
+      }, 5000);
+      // res.render('dashboard', {courses:courses});
+      res.send(courses);
+    }
+    
   } catch(e){
     next(e);
   }
