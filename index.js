@@ -13,7 +13,8 @@ const mongooseOptions = {
   useUnifiedTopology: true,
 };
 
-mongoose.connect(MONGOOSE_URL, mongooseOptions);
+mongoose.connect(MONGOOSE_URL, mongooseOptions)
+.then(console.log('good'));
 
 server.start(3000);
 
