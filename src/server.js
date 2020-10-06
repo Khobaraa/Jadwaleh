@@ -39,7 +39,6 @@ app.use(wallRouter);
 app.use(authRouter);
 app.use(chatRouter);
 
-
 ///////////////////////////////////////////
 
 io.on('connection', (socket) => {
@@ -58,10 +57,6 @@ io.on('connection', (socket) => {
 // For dashboard
 const dashboard = require('./routes/dashboard');
 app.use('/', dashboard);
-
-//For template
-const template = require('./routes/template');
-app.use('/', template);
 
 // For notification
 const notification = require('./routes/notification');
