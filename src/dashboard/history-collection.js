@@ -5,8 +5,7 @@ const Model = require('../timetable/lib/mongoTable');
 
 const schema = mongoose.model('history', {
   name: {type: String, require: true},
-  userId: {type:String},
-  subjects: [
+  courses: [
 
     {
       name: { type: String },

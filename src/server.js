@@ -46,10 +46,6 @@ io.on('connection', (socket) => {
 const dashboard = require('./routes/dashboard');
 app.use('/', dashboard);
 
-//For template
-const template = require('./routes/template');
-app.use('/', template);
-
 // For notification
 const notification = require('./routes/notification');
 app.use('/', notification);

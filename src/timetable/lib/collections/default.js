@@ -2,7 +2,7 @@
 const template = require('./template-collection.js');
 const util = require('util');
 
-async function fillEmptyDB() {
+async function fillEmptyDB(defaultTemplate) {
   // console.log(util.inspect(defaultTemplate, false, null, true /* enable colors */))
 
   // Insert record
@@ -132,5 +132,7 @@ const defaultTemplate = {
   ],
   student_id: '5f79cd4995eecc07d8a37dfa',
 };
+fillEmptyDB(defaultTemplate);
+
 
 module.exports = fillEmptyDB;

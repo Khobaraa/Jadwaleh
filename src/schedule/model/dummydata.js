@@ -2,7 +2,7 @@
 
 const schema = require('./template');
 
-async function fillEmptyDB() {
+async function fillEmptyDB(dummy) {
   await schema.create(dummy);
 }
 
@@ -157,5 +157,6 @@ const dummy = {
   ],
   student_id: '5f79cd4995eecc07d8a37dfa',
 };
+fillEmptyDB(dummy);
 
 module.exports = fillEmptyDB;
