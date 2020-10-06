@@ -32,11 +32,6 @@ router.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetai
 
 // custom all containing route
 
-// For dashboard
-// const dashboard = require('./routes/dashboard');
-// router.use('/', dashboard);
-
-
 // ----------------------------------- functions categories ----------------------------------- //
 async function postAuthDetails(req, res, next) {
   console.log('here in post');
