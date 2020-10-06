@@ -100,7 +100,7 @@ async function getTemplate(starterTemplates, pastTemplates, chosenUser) {
   let chosenTemplate = {};
   let subjectsToChoose = [];
 
-  for (let keys in starterTemplates) {
+  for (let keys in starterTemplates) {                // pushes both starter and past template into validTemplateNames
     validTemplateNames.push(starterTemplates[keys].name);
   }
   for (let keys in pastTemplates) {
@@ -180,6 +180,22 @@ async function getUser(users) {
   return users[choice];
 }
 
+async function arrangeSubjects(chosenTemplate, subjectsToChoose) {
+  let choice = -1;
+
+  do {
+    const input = await inquirer.prompt([
+      { name: 'template', message: 'rate difficulty of a subject from 1 - 10 \n' },
+    ]);
+    choice = input.template.split(' ')[0] - 1;
+  } while (!(!isNaN(choice) && choice >= 0 && choice <= 11)); // checks if input is a number and within limit
+
+  chosenTemplate, subjectsToChoose
+  subjects.shift();
+
+  console.log('chosen user', usernames[choice]);
+
+}
 
 async function startApp() {
   console.clear();
@@ -195,6 +211,7 @@ async function startApp() {
   let pastTemplates = await history.read(chosenUser._id);
 
   let [chosenTemplate, subjectsToChoose] = await getTemplate(starterTemplates, pastTemplates, chosenUser);
+  [chosenTemplate, subjectsToChoose] = await arrangeSubjects(chosenTemplate, subjectsToChoose);
   await getInput(chosenTemplate, subjectsToChoose);
 }
 

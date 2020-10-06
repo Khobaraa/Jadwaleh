@@ -1,17 +1,22 @@
 'use strict';
 
-const template = require('../schedule/model/template');
+const history = require('./history-collection');
 
-module.exports = async function () {
-  let data = await template.findOne({student_id :'5f79cd4995eecc07d8a37dfa'});
+module.exports = async function (userId) {
+  let data = await history.read(userId);
   let statArr = [];
-  data.courses.forEach(course => {
-    let result = statistics(course);
-    statArr.push(result);
-    
-  });
-  return statArr;
-
+  try {
+    data = data[0].toObject();
+    console.log('keeeeeeeeeeeeys',Object.keys(data));
+    data.courses.forEach(course => {
+      let result = statistics(course);
+      statArr.push(result);
+      
+    });
+    return statArr;
+  } catch(e) {
+    throw new Error('You have not started studying yet!');
+  }
 };
 
 function statistics (course) {
@@ -20,7 +25,7 @@ function statistics (course) {
   result['hours'] = course.expectedHours;
   course.chapters.forEach(chapter => {
       
-    if(chapter.state === 'completed'){
+    if(chapter.state ===1){
       total++;
       hours += chapter.duration;
     }

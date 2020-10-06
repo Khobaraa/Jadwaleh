@@ -1,7 +1,7 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongoTable.js');
+const Model = require('../timetable/lib/mongoTable');
 
 const schema = mongoose.model('history', {
   name: {type: String, require: true},
