@@ -16,7 +16,7 @@ const schema = mongoose.model('history', {
         {
           name: { type: String },
           duration: { type: Number },
-          state: { type: Number, required: true},
+          state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
         },
       ],
       isCompleted: { type: Boolean },
