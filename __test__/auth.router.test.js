@@ -14,7 +14,7 @@ describe('Auth Router', () => {
         const userData = {
           username: 'khaled',
           password: '1234',
-          role: 'regular',
+          role: 'admin',
         };
         const results = await mockRequest.post('/signup').send(userData);
         let user = results.body;
