@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-let SECRET = 'myserverhasfleas';
+let SECRET = 'mytokensecret';
 
 // Start off with one account: test:test
 let db = {
@@ -39,5 +39,6 @@ users.generateToken = function (user) {
 }
 
 users.list = () => db;
+console.log('users: ',users);
 
 module.exports = users;
