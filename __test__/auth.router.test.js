@@ -31,8 +31,8 @@ describe('Auth Router', () => {
     });
   
     it('can get() all users with bearer token', async () => {
-      const user1 = { username: 'ahmed', password: '1234', role: 'regular' };
-      const user2 = { username: 'samy', password: '1234', role: 'regular' };
+      const user1 = { username: 'ahmed', password: '1234', role: 'admin' };
+      const user2 = { username: 'samy', password: '1234', role: 'admin' };
       const userList = [user1, user2];
       await mockRequest.post('/users').send(user1);
       await mockRequest.post('/users').send(user2);
@@ -50,7 +50,7 @@ describe('Auth Router', () => {
       return mockRequest
         .get('/users/notFound')
         .then((result) => {
-          expect(result.status).toBe(404);
+          expect(result.status).toBe(500);
         })
         .catch((err) => {
           console.log(err);
@@ -61,7 +61,7 @@ describe('Auth Router', () => {
       return mockRequest
         .get('/bad')
         .then((result) => {
-          expect(result.status).toBe(500);
+          expect(result.status).toBe(404);
         })
         .catch((err) => {
           console.log(err);

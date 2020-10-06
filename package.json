@@ -8,6 +8,16 @@
     "lint": "eslint './**/*.js' --ignore-pattern node_modules/",
     "start": "nodemon index.js"
   },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+        "./src/**/*.{js,jsx}",
+        "!**/node_modules/**",
+        "!./src/timetable/**",
+        "!./src/apps/**",
+        "!**/*Container.jsx"
+    ]
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Khobaraa/Jadwaleh.git"
