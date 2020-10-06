@@ -27,7 +27,7 @@ socket.on('newText', payload => {
 // Message from server
 socket.on('typing', val => {
   if (val) {
-    typingDiv.innerText = 'Some one is typing on your wall';
+    typingDiv.innerText = 'Someone is typing on your wall';
   } else {
     typingDiv.innerText = '';
   }
