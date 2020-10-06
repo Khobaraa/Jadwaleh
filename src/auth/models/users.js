@@ -39,6 +39,5 @@ users.generateToken = function (user) {
 }
 
 users.list = () => db;
-console.log('users: ',users);
 
 module.exports = users;
