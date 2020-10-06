@@ -1,7 +1,7 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongo.js');
+const Model = require('../mongoTable.js');
 
 const schema = mongoose.model('table', {
   week: [

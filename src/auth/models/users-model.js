@@ -74,7 +74,7 @@ class Model {
  * @param {String} _id is a mongoose generated ID to search for
 */
   delete(_id) {  
-    return _id ? USERS.findByIdAndDelete() : Promise.reject();
+    return _id ? USERS.findByIdAndDelete({_id}) : Promise.reject();
   }
 
   /**

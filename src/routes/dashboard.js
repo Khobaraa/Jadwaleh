@@ -4,9 +4,9 @@ const express = require('express');
 const router = express.Router();
 const events = require('../notification/events');
 const statistics = require('../dashboard/statistics');
-const basicAuth = require('../auth/middleware/basic');
+const bearerAuth = require('../auth/middleware/bearer');
 
-router.get('/dashboard', basicAuth, getDashboard);
+router.get('/dashboard', bearerAuth, getDashboard);
 
 async function getDashboard(req,res,next){
   try{

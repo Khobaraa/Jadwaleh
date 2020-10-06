@@ -6,15 +6,8 @@ async function fillEmptyDB() {
   // console.log(util.inspect(defaultTemplate, false, null, true /* enable colors */))
 
   // Insert record
-  console.log('inserting good..');
   let saved = await template.create(defaultTemplate);
-  console.log('saving..');
-
-  console.log('inserting bad..');
-  await template.create(badTemplate);
-  console.log('saving..');
-
-  console.log(util.inspect(saved, false, null, true /* enable colors */));
+  // console.log(util.inspect(saved, false, null, true /* enable colors */));
 
 }
 
@@ -29,17 +22,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 1,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter3',
           duration: 1,
-          state: 'in-progress',
+          state: 0,
         },
       ],
       isCompleted: false,
@@ -52,17 +45,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter2',
           duration: 1,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter3',
           duration: 3,
-          state: 'in-progress',
+          state: 0,
         },
       ],
       isCompleted: false,
@@ -75,17 +68,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 1,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter3',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
       ],
       isCompleted: true,
@@ -98,17 +91,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 3,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter3',
           duration: 1,
-          state: 'in-progress',
+          state: 0,
         },
       ],
       isCompleted: false,
@@ -121,17 +114,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 2,
-          state: 'completed',
+          state: 0,
         },
         {
           name: 'chapter2',
           duration: 1,
-          state: 'not-studied',
+          state: 0,
         },
         {
           name: 'chapter3',
           duration: 3,
-          state: 'not-studied',
+          state: 0,
         },
       ],
       isCompleted: false,
@@ -139,13 +132,5 @@ const defaultTemplate = {
   ],
   student_id: '5f79cd4995eecc07d8a37dfa',
 };
-
-const badTemplate = {
-  name: 'Literary Stream',
-  courses: [],
-  student_id: 'badStudent',
-};
-
-
 
 module.exports = fillEmptyDB;
