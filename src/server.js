@@ -10,6 +10,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const bodyParser = require('body-parser');
 app.set('view engine', 'ejs');
 
 require('./apps/chat/chat')(io);
@@ -20,6 +21,11 @@ const authRouter =  require('./routes/auth-router.js');
 
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true,
+})); 
+
 app.use(cors());
 app.use(cookieParser());
 app.use(authRouter);

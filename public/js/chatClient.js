@@ -3,25 +3,33 @@ const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
+// eslint-disable-next-line no-undef
 var socket = io('/chatRoom');
 
 // Get username and room from URL
-const { username, room } = Qs.parse(location.search, {
+// eslint-disable-next-line no-undef
+const {room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
 // Join chatroom
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom', {room });
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
 });
+// Old Messages from Server
+socket.on('history', messages => {
+  messages;
+  messages.forEach(message => {
+    outputMessage(message);
+  });
+});
 
 // Message from server
 socket.on('message', message => {
-  console.log(message);
   outputMessage(message);
 
   // Scroll down
@@ -34,10 +42,10 @@ chatForm.addEventListener('submit', e => {
 
   // Get message text
   let msg = e.target.elements.msg.value;
-  
+
   msg = msg.trim();
-  
-  if (!msg){
+
+  if (!msg) {
     return false;
   }
 
@@ -73,7 +81,7 @@ function outputRoomName(room) {
 // Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = '';
-  users.forEach(user=>{
+  users.forEach(user => {
     const li = document.createElement('li');
     li.innerText = user.username;
     userList.appendChild(li);
