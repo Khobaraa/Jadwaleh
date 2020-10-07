@@ -134,13 +134,12 @@ async function getTemplate(starterTemplates, pastTemplates, chosenUser) {
       chosenTemplate.student_id = chosenUser._id;
       chosenTemplate.name += ' for ' + chosenUser.username;
       console.log(`saving template to the id.. >>>>>>>>> ${chosenTemplate.student_id}`);
-    
+
       let historyTemplate = chosenTemplate.toObject();      // cant create new mongoose entry before 
       chosenTemplate = await history.create(historyTemplate);   // converting it back from mongoose document to object
       console.log(util.inspect(historyTemplate, false, null, true /* enable colors */));
     }
   }
-
   for (let k = 0; k < chosenTemplate.courses.length; k++) {      //fills in the chapters of each unit and lesson as a choice table
     for (let i = 0; i < chosenTemplate.courses[k].chapters.length; i++) {
       if (!(chosenTemplate.courses[k].chapters[i].state == 'completed')) {
@@ -180,29 +179,30 @@ async function getUser(users) {
   return users[choice];
 }
 
-async function arrangeSubjects(chosenTemplate, subjectsToChoose) {
-  let choice = -1;
+// async function arrangeSubjects(chosenTemplate, subjectsToChoose) {
+//   let choice = -1;
 
-  do {
-    const input = await inquirer.prompt([
-      { name: 'template', message: 'rate difficulty of a subject from 1 - 10 \n' },
-    ]);
-    choice = input.template.split(' ')[0] - 1;
-  } while (!(!isNaN(choice) && choice >= 0 && choice <= 11)); // checks if input is a number and within limit
+//   do {
+//     const input = await inquirer.prompt([
+//       { name: 'template', message: 'rate difficulty of a subject from 1 - 10 \n' },
+//     ]);
+//     choice = input.template.split(' ')[0] - 1;
+//   } while (!(!isNaN(choice) && choice >= 0 && choice <= 11)); // checks if input is a number and within limit
 
-  chosenTemplate, subjectsToChoose
-  subjects.shift();
+//   chosenTemplate, subjectsToChoose
+//   subjects.shift();
 
-  console.log('chosen user', usernames[choice]);
+//   console.log('chosen user', usernames[choice]);
 
-}
+// }
 
 async function startApp() {
   console.clear();
   console.log('reading..');
 
   // await history.clear();
-  // await fillEmptyDB();
+  await template.clear();
+  await fillEmptyDB();
 
   let userList = await getUsers.get();
   let starterTemplates = await template.read();
@@ -211,7 +211,7 @@ async function startApp() {
   let pastTemplates = await history.read(chosenUser._id);
 
   let [chosenTemplate, subjectsToChoose] = await getTemplate(starterTemplates, pastTemplates, chosenUser);
-  [chosenTemplate, subjectsToChoose] = await arrangeSubjects(chosenTemplate, subjectsToChoose);
+  // [chosenTemplate, subjectsToChoose] = await arrangeSubjects(chosenTemplate, subjectsToChoose);
   await getInput(chosenTemplate, subjectsToChoose);
 }
 

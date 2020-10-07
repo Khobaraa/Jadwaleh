@@ -25,9 +25,9 @@ function statistics (course) {
   result['hours'] = course.expectedHours;
   course.chapters.forEach(chapter => {
       
-    if(chapter.state ===1){
+    if(chapter.state === 'completed'){
       total++;
-      hours += chapter.duration;
+      hours += Math.floor(chapter.duration*50*Math.random()); // numbers randomizer
     }
     result['spentHours'] = hours;
     result['progress'] = Math.floor(total/ course.noOfChapters * 100);

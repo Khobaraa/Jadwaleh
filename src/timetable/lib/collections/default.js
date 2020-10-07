@@ -2,7 +2,7 @@
 const template = require('./template-collection.js');
 const util = require('util');
 
-async function fillEmptyDB(defaultTemplate) {
+async function fillEmptyDB() {
   // console.log(util.inspect(defaultTemplate, false, null, true /* enable colors */))
 
   // Insert record
@@ -22,17 +22,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter3',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
       ],
       isCompleted: false,
@@ -45,17 +45,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter2',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter3',
           duration: 3,
-          state: 0,
+          state: 'not-studied',
         },
       ],
       isCompleted: false,
@@ -68,17 +68,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter3',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
       ],
       isCompleted: true,
@@ -91,17 +91,17 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 3,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter2',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter3',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
       ],
       isCompleted: false,
@@ -114,25 +114,25 @@ const defaultTemplate = {
         {
           name: 'chapter1',
           duration: 2,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter2',
           duration: 1,
-          state: 0,
+          state: 'not-studied',
         },
         {
           name: 'chapter3',
           duration: 3,
-          state: 0,
+          state: 'not-studied',
         },
       ],
       isCompleted: false,
     },
   ],
-  student_id: '5f79cd4995eecc07d8a37dfa',
+  student_id: '000000',
 };
-fillEmptyDB(defaultTemplate);
+fillEmptyDB();
 
 
 module.exports = fillEmptyDB;

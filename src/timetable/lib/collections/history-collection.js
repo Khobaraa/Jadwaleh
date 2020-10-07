@@ -5,8 +5,7 @@ const Model = require('../mongoTable.js');
 
 const schema = mongoose.model('history', {
   name: {type: String, require: true},
-  subjects: [
-
+  courses: [
     {
       name: { type: String },
       expectedHours: { type: Number },

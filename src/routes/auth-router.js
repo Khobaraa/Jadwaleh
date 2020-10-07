@@ -34,7 +34,6 @@ router.delete('/users/:id', bearerAuth, aclMiddleWare('delete'), deleteUserDetai
 
 // ----------------------------------- functions categories ----------------------------------- //
 async function postAuthDetails(req, res, next) {
-  console.log('here in post');
   usersModel.create(req.body).then(user => {
     res.status(200).send(user);  
   }).catch(err=> {
@@ -47,7 +46,6 @@ function verifyAuthDetails(req, res, next) {
     res.cookie('token',req.token);
     res.cookie('userId',`${req.user._id}`);
     events.emit('signin',req.user._id );
-    console.log('userId', req.user._id);
     res.status(200).send({
       token: req.token,
       user: req.user,

@@ -12,7 +12,6 @@ class Model {
    * @param {object} record is a valid object input ready to use in schema.
    */
   async create(record) {
-
     console.log('Checking for ', record.student_id);
 
     let userDB = await this.schema.findOne({ student_id: record.student_id });
@@ -31,9 +30,7 @@ class Model {
   read(_id) {
     console.log(_id);
     let obj = _id ? {student_id: _id} : {};    
-    return this.schema.find(obj, '-_id', function(err, entity) {
-      console.log('entity', entity);
-    });
+    return this.schema.find(obj, '-_id');
   }
   /**
    * updates the specified _id with the record object
