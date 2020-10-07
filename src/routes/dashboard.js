@@ -5,7 +5,7 @@ const router = express.Router();
 const events = require('../notification/events');
 const statistics = require('../dashboard/statistics');
 const bearerAuth = require('../auth/middleware/bearer');
-
+//To get the progress and other statistics
 router.get('/dashboard', bearerAuth, getDashboard);
 
 async function getDashboard(req,res,next){
@@ -17,9 +17,9 @@ async function getDashboard(req,res,next){
         total += course.progress;
       });
       progress = total/ courses.length;
-      // setTimeout(() => { 
-      //   events.emit('summary',req.cookies.userId, progress );
-      // }, 5000);
+      setTimeout(() => { 
+        events.emit('summary',req.cookies.userId, progress );
+      }, 5000);
       // res.render('dashboard', {courses:courses});
       res.status(200).send(courses);
     }
