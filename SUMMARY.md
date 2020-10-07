@@ -5,7 +5,6 @@
   * [Wireframe](assets/wireframe.md)
   * [UML](assets/uml.md)
 * [Software Requirements](requirements.md)
-* [Oauth with Google](oauth-with-google.md)
 
 ## Get Sarted <a id="introduction"></a>
 
@@ -15,5 +14,4 @@
   * [Service routes](introduction/signup-signin-1/service-routes.md)
 * [Schemas](introduction/schemas.md)
 * [Modules](introduction/modules.md)
-* [Data Pipeline](introduction/data-pipeline.md)
 
