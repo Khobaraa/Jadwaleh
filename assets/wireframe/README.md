@@ -6,7 +6,7 @@
 
 ![home](./home.PNG)
 
-![Dashboard](./Dashboard.PNG)
+![Dashboard](./Dashboard.png)
 
 ![signin](./signin.PNG)
 
