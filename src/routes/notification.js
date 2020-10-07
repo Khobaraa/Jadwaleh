@@ -13,7 +13,7 @@ events.on('signin', async data => {
     time: new Date() ,
     student_id : data,
   };
-  console.log('new notification: ',notification);
+  console.log('new notification: ',notification.text);
   await Notification.create(notification);
 });
 
@@ -33,7 +33,7 @@ events.on('summary', async (student, sum) => {
     time: new Date(),
     student_id : student,
   };
-  console.log('new notification: ',notification);
+  console.log('new notification: ',notification.text);
   await Notification.create(notification); 
 
 });
