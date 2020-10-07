@@ -6,7 +6,7 @@
 
 ![home](../.gitbook/assets/home%20%281%29.PNG)
 
-![Dashboard](../.gitbook/assets/Dashboard.PNG)
+![Dashboard](../.gitbook/assets/Dashboard.png)
 
 ![signin](../.gitbook/assets/signin.PNG)
 
