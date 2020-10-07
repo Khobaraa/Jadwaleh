@@ -13,6 +13,7 @@ events.on('signin', async data => {
     time: new Date() ,
     student_id : data,
   };
+  console.log('new notification: ',notification);
   await Notification.create(notification);
 });
 
@@ -29,9 +30,10 @@ events.on('congrats', async data=> {
 events.on('summary', async (student, sum) => {
   const notification = {
     text: `You have made ${sum} progress`,
-    time: new Date() ,
+    time: new Date(),
     student_id : student,
   };
+  console.log('new notification: ',notification);
   await Notification.create(notification); 
 
 });
