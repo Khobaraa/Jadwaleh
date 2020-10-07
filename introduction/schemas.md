@@ -1,3 +1,9 @@
+---
+description: >-
+  Starting with the user schema, each user would have the following schemas
+  attached
+---
+
 # Schemas
 
 ## Chat Schema
