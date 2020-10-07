@@ -1,10 +1,30 @@
 ---
 description: >-
   Starting with the user schema, each user would have the following schemas
-  attached
+  attached!
 ---
 
 # Schemas
+
+## User Schema
+
+| field | type | required |
+| :--- | :--- | :--- |
+| email | string | true |
+| username | string | true |
+| password | string | true |
+| role | string | true |
+
+## History/Template Schema
+
+| field | type | required |
+| :--- | :--- | :--- |
+| name | string | true |
+|  |  |  |
+
+## Weekly Schema
+
+## Notification
 
 ## Chat Schema
 
