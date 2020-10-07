@@ -6,26 +6,65 @@ description: >-
 
 # Service routes
 
+
+
 {% api-method method="get" host="http://localhost:3000" path="/chat" %}
 {% api-method-summary %}
 Get Chat
 {% endapi-method-summary %}
 
 {% api-method-description %}
-This endpoint allows you to get and send free chatters.
+This endpoint allows the student to pick his chatting room
 {% endapi-method-description %}
 
 {% api-method-spec %}
 {% api-method-request %}
 {% api-method-headers %}
-{% api-method-parameter name="Authentication" type="string" required=true %}
-Authentication token to track down who is using chattering away.
+{% api-method-parameter name="token" type="string" required=true %}
+user needs to provide a valid token using cookies or bearer
 {% endapi-method-parameter %}
 {% endapi-method-headers %}
+{% endapi-method-request %}
 
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+The user will receive the Chat HTML page
+{% endapi-method-response-example-description %}
+
+```
+
+```
+{% endapi-method-response-example %}
+
+{% api-method-response-example httpCode=401 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+Error: Invalid Headers
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+{% api-method method="get" host="http://localhost:3000" path="/chatRoom" %}
+{% api-method-summary %}
+Get Chat Room
+{% endapi-method-summary %}
+
+{% api-method-description %}
+This endpoint allows the student to send and receive  messages to and from other students
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
 {% api-method-form-data-parameters %}
 {% api-method-parameter name="Subject" type="string" required=true %}
-Because study requires study related chat!
+user needs to provide a valid token using cookies or  
+bearer
 {% endapi-method-parameter %}
 {% endapi-method-form-data-parameters %}
 {% endapi-method-request %}
@@ -33,15 +72,11 @@ Because study requires study related chat!
 {% api-method-response %}
 {% api-method-response-example httpCode=200 %}
 {% api-method-response-example-description %}
-Cake successfully retrieved.
+The user will receive the Chat Room HTML page
 {% endapi-method-response-example-description %}
 
 ```
-"User 1 logged in"
 
-User 2: Hey User1!
-
-   Hello User2 :User1
 ```
 {% endapi-method-response-example %}
 
@@ -96,6 +131,4 @@ Because it would be bad if anyone could write on the wall.
 {% endapi-method-response %}
 {% endapi-method-spec %}
 {% endapi-method %}
-
-
 
