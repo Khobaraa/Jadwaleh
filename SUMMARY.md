@@ -1,9 +1,8 @@
 # Table of contents
 
 * [README](README.md)
-* [assets](assets/README.md)
-  * [Wireframe](assets/wireframe.md)
-  * [UML](assets/uml.md)
+* [Wireframe](wireframe.md)
+* [UML](uml.md)
 * [Software Requirements](requirements.md)
 
 ## Get Sarted <a id="introduction"></a>
