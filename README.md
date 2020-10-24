@@ -1,15 +1,14 @@
 # README
 
-## Jadwaleh
+## [Jadwaleh at Gitbook](https://app.gitbook.com/@jadwleh/s/public-space/)
 
 ### Table of Contents
 
 * [About the Project](./#about-the-project)
 * [Wireframes](./#Wireframes)
 * [User Stories](./#User-Stories)
-* [Domain Modeling](./#Domain-Modeling)
-* [Contributors](./#Contributors)
 * [Entity Relationship Diagram](./#Entity-Relationship-Diagram)
+* [Contributors](./#Contributors)
 * [License](./#license)
 
 ## About the Project
@@ -24,19 +23,15 @@ To see more on the project requirements, click on [this.link](requirements.md).
 
 ### UML
 
-[Click to See the UML Case Use Diagram](https://github.com/Khobaraa/Jadwaleh/tree/54470c4d3e8103e03c5d94e19f90c4f2bb567db7/resources/UML/README.md)
+[Click to See the UML Case Use Diagram](uml.md)
 
 ## Wireframes
 
-[Click to See the Wireframe](assets/wireframe.md)
+[Click to See the Wireframe](wireframe.md)
 
 ## User Stories
 
 [Project management board](https://trello.com/b/4tUApXJe/jadwalla)
-
-## Domain Modeling
-
-![domain](https://github.com/Khobaraa/Jadwaleh/tree/54470c4d3e8103e03c5d94e19f90c4f2bb567db7/wireframe/domainModeling.PNG) N/A
 
 ## Entity Relationship Diagram
 
