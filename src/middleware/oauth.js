@@ -1,7 +1,8 @@
 'use strict';
 
 const superagent = require("superagent");
-const users = require('../models/users');
+const users = require('../models/users-model');
+
 require('dotenv').config();
 const { CLIENT_ID, CLIENT_SECRET } = process.env;
 const API_SERVER = "http://localhost:3000/oauth";

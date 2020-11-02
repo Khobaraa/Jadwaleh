@@ -2,8 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const events = require('../notification/events');
-const statistics = require('../dashboard/statistics');
+const events = require('../modules/events');
+const statistics = require('../modules/statistics');
 const bearerAuth = require('../auth/middleware/bearer');
 //To get the progress and other statistics
 router.get('/dashboard', bearerAuth, getDashboard);

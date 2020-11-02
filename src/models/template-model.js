@@ -1,7 +1,7 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongoTable.js');
+const Model = require('../mongo.js');
 
 const schema = mongoose.model('template', {
   name: {
@@ -25,7 +25,7 @@ const schema = mongoose.model('template', {
   student_id: { type: String, required: true, unique: true, sparse: true},
 });
 
-class Template extends Model{
+class Template extends Model {
   constructor() {
     super(schema);
   }

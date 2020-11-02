@@ -1,11 +1,10 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const Model = require('../mongo.js');
 
-const Template = mongoose.Schema({
-  name: {
-    type: String, required: true, enum: ['Scientific Stream', 'Literary Stream', 'Industrial Stream'],
-  },
+const schema = mongoose.model('history', {
+  name: {type: String, require: true},
   courses: [
     {
       name: { type: String },
@@ -15,15 +14,24 @@ const Template = mongoose.Schema({
         {
           name: { type: String },
           duration: { type: Number },
-          date : {type: Date},
           state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
         },
       ],
       isCompleted: { type: Boolean },
     },
   ],
-  student_id: { type: String, required: true },
+  student_id: { type: String, required: true, unique: true, sparse: true},
 });
 
+class History extends Model {
+  constructor() {
+    super(schema);
+  }
 
-module.exports = mongoose.model('Template', Template);
+  get(student_id) {
+    console.log('reading studemt_id', student_id);
+    return this.schema.find({student_id});
+  }
+}
+
+module.exports = new History;

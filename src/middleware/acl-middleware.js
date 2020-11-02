@@ -5,7 +5,7 @@
 */
 module.exports = (action) => {
   return (req, res, next) => {
-    console.log('req.user.actions +++++++++', req.user.tokenObject.actions);
+    console.log('req.user.actions Actions available ', req.user.tokenObject.actions);
     try {
       if (req.user.tokenObject.actions.includes(action)) {
         next();

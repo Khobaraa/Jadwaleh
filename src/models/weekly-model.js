@@ -1,7 +1,7 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongoTable.js');
+const Model = require('../mongo.js');
 
 const schema = mongoose.model('table', {
   week: [
@@ -25,7 +25,7 @@ const schema = mongoose.model('table', {
   ],
 });
 
-class Table extends Model{
+class Table extends Model {
   constructor() {
     super(schema);
   }
