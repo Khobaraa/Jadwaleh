@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const dashboard = require('./routes/dashboard');
+// const dashboard = require('./routes/dashboard');
 // ----------------------------------- Special Routes ----------------------------------- //
 
 const authRouter =  require('./routes/auth-router.js');
@@ -41,24 +41,24 @@ function postItem(req, res, next) {
 function getItem(req, res, next) {
   let paramID = req.params.id;
   console.log('paramID', paramID, req.model);
-  if (req.model == 'dashboard') {
-    dashboard(paramID);
-  } else {
-    req.model.get(paramID).then(data => {
+  // if (req.model == 'dashboard') {
+  //   dashboard(paramID);
+  // } else {
+  req.model.get(paramID).then(data => {
 
-      let output = {
-        count: 0,
-        results: [],
-      };
-      output.count = data.length;
-      output.results = data;
-  
-      res.status(200).json(output);
-    }).catch(err=> {
-      console.log(err);
-      next(err);
-    });
-  }
+    let output = {
+      count: 0,
+      results: [],
+    };
+    output.count = data.length;
+    output.results = data;
+
+    res.status(200).json(output);
+  }).catch(err=> {
+    console.log(err);
+    next(err);
+  });
+  // }
 }
 
 function updateOneItem(req, res, next) {
