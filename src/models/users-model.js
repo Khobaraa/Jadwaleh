@@ -9,9 +9,8 @@ const Model = require('../mongo.js');
 * defines actions specified for each role 
 */
 let roles = {
-  user: ['read'],
-  writer: ['read', 'create'],
-  editor: ['read', 'create', 'update'],
+  student: ['read', 'create'],
+  teacher: ['read', 'create', 'update'],
   admin: ['read', 'create', 'update', 'delete'],
 };
 /**
@@ -22,7 +21,7 @@ const schema = mongoose.model('users', {
   username: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  role: { type: String, required: true, enum: ['student', 'writer', 'editor', 'admin']},
+  role: { type: String, required: true, enum: ['student', 'teacher', 'admin']},
 });
 
 class User extends Model {
