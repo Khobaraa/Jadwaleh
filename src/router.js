@@ -6,7 +6,9 @@ const router = express.Router();
 // ----------------------------------- Special Routes ----------------------------------- //
 
 const authRouter =  require('./routes/auth-router.js');
+const serverErrorHandler = require('./middleware/500');
 router.use(authRouter);
+router.use(serverErrorHandler);
 
 // ----------------------------------- Generic Routes ----------------------------------- //
 
@@ -21,6 +23,7 @@ router.post('/:model', bearerAuth, aclMiddleWare('write'), postItem);
 router.put('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.patch('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.delete('/:model/:id', bearerAuth, aclMiddleWare('delete'), deleteOneItem);
+
 
 // ----------------------------------- Generic Functions ----------------------------------- //
 
