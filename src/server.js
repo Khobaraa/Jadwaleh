@@ -54,7 +54,7 @@ app.use('*', notFoundHandler);
 module.exports = {
   server: http,
   start: port => {
-    let PORT = port || 3000;
-    http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    let aPort = port || process.env.PORT || 3000;
+    http.listen(aPort, () => console.log(`Listening on port ${aPort}`));
   },
 };
