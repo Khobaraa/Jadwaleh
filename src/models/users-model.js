@@ -21,7 +21,8 @@ let roles = {
 const schema = mongoose.model('users', {
   username: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, required: true, enum: ['user', 'writer', 'editor', 'admin']},
+  email: { type: String, required: true, unique: true },
+  role: { type: String, required: true, enum: ['student', 'writer', 'editor', 'admin']},
 });
 
 class User extends Model {
@@ -35,7 +36,7 @@ class User extends Model {
   async create(record) {
     console.log('Check for ', record);
 
-    let userDB = await this.schema.findOne({ username: record.username });
+    let userDB = await this.schema.findOne({ email: record.email });
     console.log('userDB', userDB);
     if (!userDB) {
       // save user if it does not exist
@@ -52,12 +53,12 @@ class User extends Model {
   }
   /**
   * gets the specified ID from mongoose db
-  * @param {String} user is the user data that would be authenticated
+  * @param {String} email is the user data that would be authenticated
   * @param {String} password is the password that will be compared locally 
   */
   async authenticateBasic(user, password) {
     console.log('Authenticating');
-    let userDB = await this.schema.findOne({ username: user });
+    let userDB = await this.schema.findOne({ email: user });
     console.log('userSB', userDB);
 
     if (userDB) {
@@ -74,7 +75,7 @@ class User extends Model {
   */
   generateToken(user) {
     let token = jwt.sign({
-      username: user.username,
+      email: user.email,
       actions: roles[user.role],
       userId : user._id, 
     }, secret);
@@ -89,7 +90,7 @@ class User extends Model {
   async authenticateToken(token) {
     try {
       let tokenObject = jwt.verify(token, secret);
-      let userDB = await this.schema.findOne({ username: tokenObject.username });
+      let userDB = await this.schema.findOne({ email: tokenObject.email });
       if (userDB) {
         return Promise.resolve({
           tokenObject: tokenObject,

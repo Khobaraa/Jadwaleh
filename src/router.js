@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-
+const dashboard = require('./routes/dashboard');
 // ----------------------------------- Special Routes ----------------------------------- //
 
 const authRouter =  require('./routes/auth-router.js');
@@ -42,7 +42,7 @@ function getItem(req, res, next) {
   let paramID = req.params.id;
   console.log('paramID', paramID, req.model);
   if (req.model == 'dashboard') {
-    
+    dashboard(paramID);
   } else {
     req.model.get(paramID).then(data => {
 

@@ -9,9 +9,9 @@ module.exports = (req, res, next) => {
 
   if(auth[0] == 'Basic') {
     console.log('inside basic and stuck maybe');
-    const [username, password] = base64.decode(auth[1]).split(':');
+    const [email, password] = base64.decode(auth[1]).split(':');
 
-    users.authenticateBasic(username, password).then(validUser=>{
+    users.authenticateBasic(email, password).then(validUser=>{
       let token = users.generateToken(validUser);
       req.token = token;
       req.user = validUser;
