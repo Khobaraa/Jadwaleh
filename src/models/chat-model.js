@@ -19,13 +19,13 @@ class Chat extends Model {
   get(room, number){
     return super.get(room).sort({ unixTime: 'desc'}).limit(number);
   }
-
-  //   update(_id, record) {
-  //     return this.schema.findByIdAndUpdate(_id, record);
-
-  //   delete(_id) {
-  //     return this.schema.findByIdAndDelete(_id);
-  //   }
 }
+
+//   update(_id, record) {
+//     return this.schema.findByIdAndUpdate(_id, record);
+
+//   delete(_id) {
+//     return this.schema.findByIdAndDelete(_id);
+//   }
 
 module.exports = new Chat;

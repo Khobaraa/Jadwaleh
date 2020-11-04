@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-// const dashboard = require('./routes/dashboard');
+const getDashboard = require('./routes/dashboard');
 // ----------------------------------- Special Routes ----------------------------------- //
 
 const authRouter =  require('./routes/auth-router.js');
@@ -38,27 +38,30 @@ function postItem(req, res, next) {
   });
 }
 
-function getItem(req, res, next) {
+async function getItem(req, res, next) {
   let paramID = req.params.id;
   console.log('paramID', paramID, req.model);
-  // if (req.model == 'dashboard') {
-  //   dashboard(paramID);
-  // } else {
-  req.model.get(paramID).then(data => {
+  if (req.model == 'history') {
+    let dashboard = await getDashboard(req);
+    res.status(200).json(dashboard);
+  } 
+  
+  else {
+    req.model.get(paramID).then(data => {
 
-    let output = {
-      count: 0,
-      results: [],
-    };
-    output.count = data.length;
-    output.results = data;
-
-    res.status(200).json(output);
-  }).catch(err=> {
-    console.log(err);
-    next(err);
-  });
-  // }
+      let output = {
+        count: 0,
+        results: [],
+      };
+      output.count = data.length;
+      output.results = data;
+      res.status(200).json(output);
+      
+    }).catch(err=> {
+      console.log(err);
+      next(err);
+    });
+  }
 }
 
 function updateOneItem(req, res, next) {
@@ -90,12 +93,3 @@ module.exports = router;
 
 // app.use(wallRouter);
 // app.use(chatRouter);
-
-
-// // For dashboard
-// const dashboard = require('./routes/dashboard');
-// app.use('/', dashboard);
-
-// // For notification
-// const notification = require('./routes/notification');
-// app.use('/', notification);

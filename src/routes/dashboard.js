@@ -1,14 +1,10 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
 const events = require('../modules/events');
 const statistics = require('../modules/statistics');
-const bearerAuth = require('../auth/middleware/bearer');
-//To get the progress and other statistics
-router.get('/dashboard', bearerAuth, getDashboard);
 
-async function getDashboard(req,res,next){
+//To get the progress and other statistics
+async function getDashboard(req){
   try{
     let courses = await statistics(req.cookies.userId);
     if(courses){
@@ -20,20 +16,11 @@ async function getDashboard(req,res,next){
       setTimeout(() => { 
         events.emit('summary',req.cookies.userId, progress );
       }, 5000);
-      // res.render('dashboard', {courses:courses});
-      res.status(200).send(courses);
+      return courses;
     }
-    
   } catch(e){
-    next(e);
+    return e;
   }
-  
 }
 
-// const test = require('../schedule/model/dummydata');
-// router.get('/schedule', savedummy);
-// async function savedummy(){
-//   test();
-// }
-
-module.exports = router;
+module.exports = getDashboard;
