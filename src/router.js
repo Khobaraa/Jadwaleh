@@ -24,7 +24,6 @@ router.put('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.patch('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.delete('/:model/:id', bearerAuth, aclMiddleWare('delete'), deleteOneItem);
 
-
 // ----------------------------------- Generic Functions ----------------------------------- //
 
 function postItem(req, res, next) {
@@ -40,15 +39,12 @@ function postItem(req, res, next) {
 
 async function getItem(req, res, next) {
   let paramID = req.params.id;
-  console.log('paramID', paramID, req.model);
-  if (req.model == 'history') {
+
+  if (req.model.constructor.name == 'History' && paramID ) {
     let dashboard = await getDashboard(req);
     res.status(200).json(dashboard);
-  } 
-  
-  else {
+  } else {
     req.model.get(paramID).then(data => {
-
       let output = {
         count: 0,
         results: [],
@@ -56,7 +52,7 @@ async function getItem(req, res, next) {
       output.count = data.length;
       output.results = data;
       res.status(200).json(output);
-      
+  
     }).catch(err=> {
       console.log(err);
       next(err);
@@ -84,6 +80,7 @@ function deleteOneItem(req, res, next) {
   });
 }
 
+// ----------------------------------- Special Functions ----------------------------------- //
 
 module.exports = router;
 

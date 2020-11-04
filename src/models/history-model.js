@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Model = require('../mongo.js');
 
-const schema = mongoose.model('history', {
+const schema = mongoose.model('histories', {
   name: {type: String, require: true},
   courses: [
     {
@@ -30,7 +30,7 @@ class History extends Model {
 
   get(student_id) {
     console.log('reading studemt_id', student_id);
-    return this.schema.find({student_id});
+    return student_id ? this.schema.find({student_id}) : this.schema.find({});
   }
 }
 

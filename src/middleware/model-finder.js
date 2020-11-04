@@ -15,6 +15,12 @@ const weekly = require('../models/weekly-model.js');
 module.exports = (req, res, next) => {
   let model = req.params.model;
   switch(model) {
+
+  case 'dashboard': 
+    req.model = history;
+    next();
+    break;
+    
   case 'chat': 
     req.model = chat;
     next();
