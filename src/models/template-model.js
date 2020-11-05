@@ -22,7 +22,7 @@ const schema = mongoose.model('template', {
       isCompleted: { type: Boolean },
     },
   ],
-  owner_id: { type: String, required: true, unique: true, sparse: true},
+  owner_id: { type: String, required: true},
 });
 
 class Template extends Model {

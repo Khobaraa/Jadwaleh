@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Model = require('../mongo.js');
 
 const schema = mongoose.model('histories', {
-  startDate: {type: Date},
+  startDate: {type: String},
   name: {type: String, require: true},
   courses: [
     {
@@ -44,6 +44,14 @@ class History extends Model {
   get(student_id) {
     console.log('reading student_id', student_id);
     return student_id ? this.schema.find({student_id}) : this.schema.find({});
+  }
+
+  put(student_id) {
+    return student_id ? this.schema.findOneAndUpdate({student_id}) : this.schema.find({});
+  }
+
+  delete(student_id) {
+    return student_id ? this.schema.findOneAndRemove({student_id}) : Promise.reject();
   }
 }
 
