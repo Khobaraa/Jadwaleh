@@ -19,7 +19,7 @@ const bearerAuth = require('./middleware/bearer');
 const aclMiddleWare = require('./middleware/acl-middleware');
 router.get('/:model', bearerAuth, aclMiddleWare('read'), getItem);
 router.get('/:model/:id', bearerAuth, aclMiddleWare('read'), getItem);
-router.post('/:model', bearerAuth, aclMiddleWare('write'), postItem);
+router.post('/:model', bearerAuth, aclMiddleWare('create'), postItem);
 router.put('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.patch('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.delete('/:model/:id', bearerAuth, aclMiddleWare('delete'), deleteOneItem);

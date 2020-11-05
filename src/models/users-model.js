@@ -9,7 +9,7 @@ const Model = require('../mongo.js');
 * defines actions specified for each role 
 */
 let roles = {
-  student: ['read', 'create'],
+  student: ['read', 'create', 'update'],
   teacher: ['read', 'create', 'update'],
   admin: ['read', 'create', 'update', 'delete'],
 };
