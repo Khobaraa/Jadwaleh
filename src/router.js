@@ -40,7 +40,7 @@ function postItem(req, res, next) {
 async function getItem(req, res, next) {
   let paramID = req.params.id;
 
-  if (req.model.constructor.name == 'History' && paramID ) {
+  if (req.switch == 'dashboard' && paramID ) {
     let dashboard = await getDashboard(req);
     res.status(200).json(dashboard);
   } else {

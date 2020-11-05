@@ -18,6 +18,7 @@ module.exports = (req, res, next) => {
 
   case 'dashboard': 
     req.model = history;
+    req.switch = 'dashboard';
     next();
     break;
     

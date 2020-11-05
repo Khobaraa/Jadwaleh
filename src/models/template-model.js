@@ -5,7 +5,7 @@ const Model = require('../mongo.js');
 
 const schema = mongoose.model('template', {
   name: {
-    type: String, required: true, enum: ['Scientific Stream', 'Literary Stream', 'Industrial Stream'],
+    type: String, required: true,
   },
   courses: [
     {
@@ -22,7 +22,7 @@ const schema = mongoose.model('template', {
       isCompleted: { type: Boolean },
     },
   ],
-  student_id: { type: String, required: true, unique: true, sparse: true},
+  owner_id: { type: String, required: true, unique: true, sparse: true},
 });
 
 class Template extends Model {
