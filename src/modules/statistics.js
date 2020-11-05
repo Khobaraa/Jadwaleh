@@ -5,7 +5,6 @@ const history = require('../models/history-model');
 module.exports = async function (userId) {
   let data = await history.get(userId);
   let statArr = [];
-  console.log('here in statistics');
   try {
     data = data[0].toObject();
 
@@ -14,7 +13,6 @@ module.exports = async function (userId) {
       statArr.push(result);
       
     });
-    console.log('done stat array', statArr);
     return statArr;
   } catch(e) {
     throw new Error('You have not started studying yet!');

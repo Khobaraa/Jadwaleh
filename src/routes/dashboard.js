@@ -6,7 +6,6 @@ const statistics = require('../modules/statistics');
 //To get the progress and other statistics
 async function getDashboard(req){
   try{
-    console.log('getting req,', req);
     let courses = await statistics(req.cookies.userId);
     if(courses){
       let total =0 , progress = 0;
