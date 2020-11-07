@@ -24,12 +24,18 @@ const schema = mongoose.model('template', {
       isCompleted: { type: Boolean },
     },
   ],
-  owner_id: { type: String, required: true},
+  owner_id: { type: mongoose.ObjectId, required: true},
 });
 
 class Template extends Model {
   constructor() {
     super(schema);
+  }
+
+  create(record) {
+    record.owner_id = new mongoose.Types.ObjectId(record.owner_id);
+    let newRecord = new this.schema(record);
+    return newRecord.save();
   }
 
 }
