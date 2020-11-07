@@ -35,6 +35,7 @@ class Template extends Model {
   create(record) {
     record.owner_id = new mongoose.Types.ObjectId(record.owner_id);
     let newRecord = new this.schema(record);
+    console.log('inside create template after objectID change', newRecord, newRecord.owner_id);
     return newRecord.save();
   }
 
