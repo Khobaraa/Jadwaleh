@@ -6,6 +6,7 @@ const Model = require('../mongo.js');
 const schema = mongoose.model('histories', {
   startDate: {type: String},
   name: {type: String, require: true},
+  description: {type: String},
   courses: [
     {
       name: { type: String },

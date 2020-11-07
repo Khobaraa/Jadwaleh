@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const Model = require('../mongo.js');
 
 const schema = mongoose.model('template', {
+  createdDate: {type: String},
   name: {
     type: String, required: true,
   },
+  description: {type: String},
   courses: [
     {
       name: { type: String },
