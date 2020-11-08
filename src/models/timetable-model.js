@@ -5,18 +5,10 @@ const Model = require('../mongo.js');
 
 const schema = mongoose.model('table', {
   ownerId: {type: String},
-  day: [
-    {
-      date: {type: Number},
-      topics: [
-        {
-          name: {type: String, default: 0},
-          hours: {type: Number, default: 0}, // for future 
-          completed: {type: Number, default: 0}, // 0-1
-        },
-      ],
-    },
-  ],
+  date: {type: Number},       // day of the year
+  name: {type: String, default: 0}, // name of the topic
+  time: {type: Number, default: 0}, // time spent 
+  completed: {type: Number, default: 0}, // 0-1
 });
 
 class Table extends Model {
