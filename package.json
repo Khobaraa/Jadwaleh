@@ -11,13 +11,13 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-        "./src/**/*.{js,jsx}",
-        "!**/node_modules/**",
-        "!./src/timetable/**",
-        "!./src/apps/**",
-        "!**/*oauth.js"
+      "./src/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!./src/timetable/**",
+      "!./src/apps/**",
+      "!**/*oauth.js"
     ]
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Khobaraa/Jadwaleh.git"

@@ -14,9 +14,9 @@ const mongooseOptions = {
 };
 
 mongoose.connect(MONGOOSE_URL, mongooseOptions)
-.then(console.log('good'));
+  .then(console.log('good'));
 
-server.start(3000);
+server.start(3001);
 
 // http server for socket.io
 

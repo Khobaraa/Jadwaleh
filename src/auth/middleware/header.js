@@ -6,7 +6,6 @@ module.exports = (action) => {
     if (req.headers.authorization) return next();
     if (action === 'Basic') {
 
-      console.log(req.body.username + req.body.password);
       req.headers.authorization = 'Basic ' + base64.encode(req.body.username + ':' + req.body.password);
       next();
     } else if (action === 'Bearer' && req.headers.cookie) {
@@ -19,7 +18,5 @@ module.exports = (action) => {
     }
 
   };
-  // if (action === 'bearer') {
 
-  // }
 };

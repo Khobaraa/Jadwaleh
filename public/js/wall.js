@@ -1,24 +1,16 @@
+/* eslint-disable no-undef */
 const chatForm = document.getElementById('flex-container');
 const typingDiv = document.getElementById('typing');
-// const chatMessages = document.querySelector('.chat-messages');
-// const roomName = document.getElementById('room-name');
-// const userList = document.getElementById('users');
 
 // eslint-disable-next-line no-undef
 const socket = io('/wall/');
 
-let userId =getUserId(document.cookie);
+let userId = getUserId(document.cookie);
 
-let sharedLink =window.location.href +'give-support/'+userId;
+let sharedLink = window.location.href + 'give-support/' + userId;
 console.log(getUserId(document.cookie));
-document.getElementById('text').value=sharedLink;
-// Join chatroom
-// Get room and users
-// socket.on('roomUsers', ({ room, users }) => {
-//   outputRoomName(room);
-//   outputUsers(users);
-// });
-// Old Messages from Server
+document.getElementById('text').value = sharedLink;
+
 socket.on('history', payload => {
   payload.forEach(val => {
     outputMessage(val);
@@ -26,11 +18,9 @@ socket.on('history', payload => {
 });
 
 socket.on('newText', payload => {
-  console.log('newText>>>>>>>>>>', payload);
   outputMessage(payload);
 });
 
-// Message from server
 socket.on('typing', val => {
   if (val) {
     typingDiv.innerText = 'Someone is typing on your wall';
@@ -38,7 +28,6 @@ socket.on('typing', val => {
     typingDiv.innerText = '';
   }
 });
-// Message submit
 chatForm.addEventListener('submit', e => {
   e.preventDefault();
 
@@ -51,14 +40,11 @@ chatForm.addEventListener('submit', e => {
     return false;
   }
 
-  // Emit message to server
   socket.emit('addToWall', text);
 
-  // Clear input
   chatForm.innerHTML = '';
 });
 
-// Output message to DOM
 function outputMessage(payload) {
   const div = document.createElement('div');
   const p = document.createElement('p');

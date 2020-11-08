@@ -8,12 +8,12 @@ var socket = io('/chatRoom');
 
 // Get username and room from URL
 // eslint-disable-next-line no-undef
-const {room } = Qs.parse(location.search, {
+const { room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
 // Join chatroom
-socket.emit('joinRoom', {room });
+socket.emit('joinRoom', { room });
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
@@ -22,7 +22,6 @@ socket.on('roomUsers', ({ room, users }) => {
 });
 // Old Messages from Server
 socket.on('history', messages => {
-  messages;
   messages.forEach(message => {
     outputMessage(message);
   });
@@ -56,7 +55,7 @@ chatForm.addEventListener('submit', e => {
   e.target.elements.msg.value = '';
   e.target.elements.msg.focus();
 });
-
+// [{username,time,text}]
 // Output message to DOM
 function outputMessage(message) {
   const div = document.createElement('div');

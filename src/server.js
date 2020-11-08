@@ -22,14 +22,14 @@ const wallRouter = require('./routes/wall');
 
 const notFoundHandler = require('./auth/middleware/404');
 const serverErrorHandler = require('./auth/middleware/500');
-const authRouter =  require('./routes/auth-router.js');
+const authRouter = require('./routes/auth-router.js');
 
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true,
-})); 
+}));
 
 app.use(cors());
 app.use(cookieParser());
@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
-  });  
+  });
 });
 
 // custom all containing route

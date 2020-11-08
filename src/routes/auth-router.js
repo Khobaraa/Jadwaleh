@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const path = require('path');
 const usersModel = require('../auth/models/users-model');
 const basicAuth = require('../auth/middleware/basic');
 const bearerAuth = require('../auth/middleware/bearer');
@@ -12,6 +13,9 @@ const events = require('../notification/events');
 const header = require('../auth/middleware/header');
 // routes as MiddleWare
 // generic model
+router.get('/login', loginHandler);
+router.get('/logout', logoutHandler);
+
 router.post('/signup', postAuthDetails);
 router.post('/signin',header('Basic'),basicAuth, verifyAuthDetails);
 router.get('/oauth', oauth, (req, res) => {
@@ -41,6 +45,15 @@ async function postAuthDetails(req, res, next) {
     console.log(err);
     next(err);
   });
+}
+function loginHandler(req,res,next){
+  res.sendFile(path.resolve(__dirname + '/../../public/login.html'));
+}
+function logoutHandler (req,res,next){
+  res.clearCookie('token');
+  res.clearCookie('userId');
+  res.redirect('/login');
+  next();
 }
 function verifyAuthDetails(req, res, next) {
   if (req.token) {

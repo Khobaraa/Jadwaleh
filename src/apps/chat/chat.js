@@ -2,8 +2,6 @@ module.exports = (io) => {
   const chatDB = require('./model/chat-model');
   const chat = io.of('/chatRoom');
   const moment = require('moment');
-  const jwt = require('jsonwebtoken');
-  const SECRET = 'mytokensecret';
 
   const formatMessage = require('./utils/messages');
   const {
@@ -17,15 +15,8 @@ module.exports = (io) => {
 
   // Run when client connects
   chat.on('connection', socket => {
-    // let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
-    // userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
-    // console.log('userToken?????',userToken);
-
-    socket.on('joinRoom', async ({ room }) => {
-      let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
-      userToken = userToken.substring(userToken.indexOf('token=')).split(';')[0].split('=')[1];
-      let username = jwt.verify(userToken, SECRET).username;
-
+    console.log('user connected to the Chat')
+    socket.on('joinRoom', async ({ room, username }) => {
       const user = userJoin(socket.id, username, room);
 
       socket.join(user.room);
@@ -61,6 +52,8 @@ module.exports = (io) => {
 
     // Runs when client disconnects
     socket.on('disconnect', () => {
+      console.log('user left  the Chat');
+
       const user = userLeave(socket.id);
 
       if (user) {
