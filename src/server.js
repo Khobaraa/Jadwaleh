@@ -14,8 +14,8 @@ const bodyParser = require('body-parser');
 
 //client side?
 const io = require('socket.io')(http);
-// require('./apps/chat/chat')(io);
-// require('./apps/wall/wall')(io);
+require('./apps/chat/chat')(io);
+require('./apps/wall/wall')(io);
 
 const notFoundHandler = require('./middleware/404');
 const serverErrorHandler = require('./middleware/500');
