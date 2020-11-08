@@ -15,7 +15,7 @@ module.exports = (io) => {
 
   // Run when client connects
   chat.on('connection', socket => {
-    console.log('user connected to the Chat')
+    console.log('user connected to the Chat');
     socket.on('joinRoom', async ({ room, username }) => {
       const user = userJoin(socket.id, username, room);
       socket.join(user.room);
