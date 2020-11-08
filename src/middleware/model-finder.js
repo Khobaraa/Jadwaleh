@@ -6,7 +6,7 @@ const notification = require('../models/notification-model.js');
 const template = require('../models/template-model.js');
 const users = require('../models/users-model.js');
 const wall = require('../models/wall-model.js');
-const weekly = require('../models/weekly-model.js');
+const weekly = require('../models/timetable-model.js');
 
 
 /**
