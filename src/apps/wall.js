@@ -1,7 +1,7 @@
 module.exports = (io) => {
   const events = require('events');
   var eventEmitter = new events.EventEmitter();
-  const wallDB = require('./model/wall-model');
+  const wallDB = require('../models/wall-model');
   const giveSupport = io.of('/wall');
   const wall = io.of('/myWall');
 

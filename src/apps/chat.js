@@ -1,9 +1,9 @@
 module.exports = (io) => {
-  const chatDB = require('./model/chat-model');
+  const chatDB = require('../models/chat-model');
   const chat = io.of('/chatRoom');
   const moment = require('moment');
 
-  const formatMessage = require('./utils/messages');
+  const formatMessage = require('./utils/messages.js');
   const {
     userJoin,
     getCurrentUser,
