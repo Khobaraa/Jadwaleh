@@ -15,7 +15,7 @@ async function getDashboard(req){
       progress = total/ courses.length;
       setTimeout(() => { 
         events.emit('summary',req.cookies.userId, progress );
-      }, 5000);
+      }, 1000);
       return courses;
     }
   } catch(e){

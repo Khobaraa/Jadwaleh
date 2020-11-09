@@ -24,6 +24,10 @@ router.put('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.patch('/:model/:id', bearerAuth, aclMiddleWare('update'), updateOneItem);
 router.delete('/:model/:id', bearerAuth, aclMiddleWare('delete'), deleteOneItem);
 
+// ----------------------------------- Specific Routes ----------------------------------- //
+
+router.get('/find/:model/:id', bearerAuth, aclMiddleWare('read'), findOne);
+
 // ----------------------------------- Generic Functions ----------------------------------- //
 
 function postItem(req, res, next) {
@@ -80,7 +84,25 @@ function deleteOneItem(req, res, next) {
   });
 }
 
-// ----------------------------------- Special Functions ----------------------------------- //
+// ----------------------------------- Specific Functions ----------------------------------- //
+
+async function findOne(req, res, next) {
+  let paramID = req.params.id;
+
+  req.model.get(paramID).then(data => {
+    let output = {
+      count: 0,
+      results: [],
+    };
+    output.count = data.length;
+    output.results = data;
+    res.status(200).json(output);
+
+  }).catch(err=> {
+    console.log(err);
+    next(err);
+  });
+}
 
 module.exports = router;
 

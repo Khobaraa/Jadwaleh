@@ -47,6 +47,11 @@ class History extends Model {
     return student_id ? this.schema.find({student_id}) : this.schema.find({});
   }
 
+  findId(_id) {
+    console.log('reading student_id', _id);
+    return _id ? this.schema.find({_id}) : this.schema.find({});
+  }
+
   put(student_id) {
     return student_id ? this.schema.findOneAndUpdate({student_id}) : this.schema.find({});
   }

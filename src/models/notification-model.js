@@ -8,6 +8,7 @@ const schema = mongoose.model('notification', {
   time:{type : Date, default: Date.now },
   student_id: { type: String, required: true },
   importance: {type: Number},
+  seen: {type: Boolean},
 });
 
 class Notification extends Model {
