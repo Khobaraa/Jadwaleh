@@ -15,7 +15,10 @@ class Table extends Model {
   constructor() {
     super(schema);
   }
-
+  get(ownerId) {
+    console.log('reading ownerId for timetable', ownerId);
+    return ownerId ? this.schema.find({ownerId}) : this.schema.find({});
+  }
 }
 
 module.exports = new Table;
