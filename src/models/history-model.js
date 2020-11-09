@@ -17,24 +17,14 @@ const schema = mongoose.model('histories', {
           name: { type: String },
           duration: { type: Number },
           state: { type: String, required: true, enum: ['not-studied', 'in-progress', 'completed'] },
+          percentage: {type: Number},
+          timeTaken: {type: Number},
         },
       ],
       isCompleted: { type: Boolean },
     },
   ],
   student_id: { type: String, required: true, unique: true, sparse: true},
-  day: [
-    {
-      date: {type: Number},
-      topics: [
-        {
-          name: {type: String, default: 0},
-          totalHours: {type: Number, default: 0}, // for future 
-          completed: {type: Number, default: 0}, // 0-1
-        },
-      ],
-    },
-  ],
 });
 
 class History extends Model {
@@ -54,6 +44,19 @@ class History extends Model {
 
   put(student_id) {
     return student_id ? this.schema.findOneAndUpdate({student_id}) : this.schema.find({});
+  }
+
+  async updateLesson(_id, record) {
+    if (_id) {
+      let doc = await this.schema.findOne({_id});
+      console.log('found the document lesson to update!!', doc);
+      doc.timeTaken += record.time;
+      doc.percentage += record.completed;
+
+      return await doc.save();
+    } else {
+      return Promise.reject();
+    }
   }
 
   delete(student_id) {
