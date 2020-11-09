@@ -46,12 +46,15 @@ class History extends Model {
     return student_id ? this.schema.findOneAndUpdate({student_id}) : this.schema.find({});
   }
 
-  async updateLesson(_id, record) {
+  async updateLesson(_id, childID, record) {
     if (_id) {
       let doc = await this.schema.findOne({_id});
-      console.log('found the document lesson to update!!', doc);
-      doc.timeTaken += record.time;
-      doc.percentage += record.completed;
+      console.log('found the document parent to update!!', doc);
+
+      let lesson = doc.children.id(childID);
+      console.log('found the document lesson to update!!', lesson);
+      lesson.timeTaken += record.time;
+      lesson.percentage += record.completed;
 
       return await doc.save();
     } else {

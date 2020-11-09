@@ -27,7 +27,7 @@ router.delete('/:model/:id', bearerAuth, aclMiddleWare('delete'), deleteOneItem)
 // ----------------------------------- Specific Routes ----------------------------------- //
 
 router.get('/find/:model/:id', bearerAuth, aclMiddleWare('read'), findOne);
-router.put('/:model/lesson/:id', bearerAuth, aclMiddleWare('read'), updateLesson);
+router.put('/:model/owner/:id/lesson/:child', bearerAuth, aclMiddleWare('read'), updateLesson);
 
 // ----------------------------------- Generic Functions ----------------------------------- //
 
@@ -107,8 +107,9 @@ async function findOne(req, res, next) {
 
 async function updateLesson(req, res, next) {
   let paramID = req.params.id;
-  
-  req.model.updateLesson(paramID).then(data => {
+  let childID = req.params.child;
+
+  req.model.updateLesson(paramID, childID, req.body).then(data => {
     let output = {
       count: 0,
       results: [],
