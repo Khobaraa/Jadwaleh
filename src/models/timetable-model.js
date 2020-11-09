@@ -6,7 +6,7 @@ const Model = require('../mongo.js');
 const schema = mongoose.model('table', {
   ownerId: {type: String},
   date: {type: Number},       // day of the year
-  name: {type: String, default: 0}, // name of the topic
+  lessonId: {type: String, default: 0}, // name of the topic
   time: {type: Number, default: 0}, // time spent 
   completed: {type: Number, default: 0}, // 0-1
 });
