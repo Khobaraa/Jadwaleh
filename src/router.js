@@ -108,7 +108,7 @@ async function findOne(req, res, next) {
 async function updateLesson(req, res, next) {
   let paramID = req.params.id;
   let childID = req.params.child;
-
+  console.log(paramID, childID);
   req.model.updateLesson(paramID, childID, req.body).then(data => {
     let output = {
       count: 0,
