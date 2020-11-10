@@ -49,7 +49,7 @@ class History extends Model {
   async updateLesson(student_id, childID, record) {
     if (student_id) {
       let doc = await this.schema.findOne({student_id});
-      console.log('found the document parent to update!!', doc.courses);
+      console.log('found the document parent to update!!', doc);
 
       let lesson;
       for (var i = 0; i < doc.courses.length; i++) {
