@@ -46,7 +46,8 @@ async function getItem(req, res, next) {
   let paramID = req.params.id;
 
   if (req.switch == 'dashboard' && paramID ) {
-    let dashboard = await getDashboard(req);
+    console.log('inside dashboard', paramID);
+    let dashboard = await getDashboard(paramID);
     res.status(200).json(dashboard);
   } else {
     req.model.get(paramID).then(data => {
