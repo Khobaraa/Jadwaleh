@@ -60,10 +60,11 @@ class History extends Model {
           lesson = child;
         }
       }
-
+      lesson.state = 'in-progress';
       console.log('updating!!', record);
       if (!lesson.timeTaken) lesson.timeTaken = 0;
       if (!lesson.percentage) lesson.percentage = 0;
+      if (lesson.percentage >= 1) lesson.state = 'completed';
 
       lesson.timeTaken += parseFloat(record.time);
       lesson.percentage += parseFloat(record.completed);
