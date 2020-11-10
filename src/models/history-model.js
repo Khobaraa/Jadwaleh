@@ -47,7 +47,7 @@ class History extends Model {
   }
 
   async updateLesson(student_id, childID, record) {
-    if (student_id) {
+    if (student_id) { 
       let doc = await this.schema.findOne({student_id});
       console.log('found the document parent to update!!', doc);
 
@@ -64,10 +64,12 @@ class History extends Model {
       console.log('updating!!', record);
       if (!lesson.timeTaken) lesson.timeTaken = 0;
       if (!lesson.percentage) lesson.percentage = 0;
-      if (lesson.percentage >= 1) lesson.state = 'completed';
 
       lesson.timeTaken += parseFloat(record.time);
       lesson.percentage += parseFloat(record.completed);
+
+      if (lesson.percentage >= 1) lesson.state = 'completed';
+
       return await doc.save();
     } else {
       return Promise.reject();
