@@ -35,10 +35,9 @@ class Template extends Model {
   
   get(_id) {
     console.log('reading _id', _id);
-    let template = _id ? this.schema.find({_id}, {projection:{_id:0}}) : this.schema.find({}, {projection:{_id:0}}).toArray();;
+    let template = _id ? this.schema.find({_id}) : this.schema.find({});
     return template;
   }
-
 }
 
 module.exports = new Template;
