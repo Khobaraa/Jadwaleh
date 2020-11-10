@@ -20,6 +20,21 @@ require('./apps/wall.js')(io);
 const notFoundHandler = require('./middleware/404');
 const serverErrorHandler = require('./middleware/500');
 
+
+app.all('*', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  );
+  console.log(req.method, req.url);
+  next();
+});
+
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());
 app.use(bodyParser.json());
@@ -56,7 +71,6 @@ app.use('/', notification);
 
 // const wallRouter = require('./routes/wall');
 // app.use(wallRouter);
-
 
 app.use('*', notFoundHandler);
 
