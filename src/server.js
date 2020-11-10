@@ -42,12 +42,21 @@ io.on('connection', (socket) => {
 });
 
 // ------------ Routes ------------ //
+// all crud routes
 const v1Router = require('./router.js');
 app.use('/api/v1', v1Router);
 
 // For notification
 const notification = require('./routes/notification');
 app.use('/', notification);
+
+// for chat and wall socket routes
+// const chatRouter = require('./routes/chat');
+// app.use(chatRouter);
+
+// const wallRouter = require('./routes/wall');
+// app.use(wallRouter);
+
 
 app.use('*', notFoundHandler);
 

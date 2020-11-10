@@ -14,17 +14,21 @@ class Wall extends Model {
     super(schema);
   }
 
-  get(ownerId) {
-    console.log('reading ownerId', ownerId);
-    return ownerId ? this.schema.find({ownerId}) : this.schema.find({});
+  create(record) {
+    let newRecord = new this.schema(record);
+    return newRecord.save();
+  }
+  get(record) {
+    if (typeof record === 'object') {
+      return this.schema.find(record);
+    } else {
+      return this.schema.find({});
+    }
+  }
+
+  delete(_id) {
+    return this.schema.findByIdAndDelete(_id);
   }
 }
-
-// getNumberOfLastMessagesByRoom(room,number){
-//   return this.schema.find(room).sort({ unixTime: 'desc'}).limit(number);
-// }
-
-//   update(_id, record) {
-//     return this.schema.findByIdAndUpdate(_id, record);
 
 module.exports = new Wall;

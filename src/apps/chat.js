@@ -24,6 +24,7 @@ module.exports = (io) => {
       socket.emit('history', last50Messages.reverse());
       // Welcome current user
       socket.emit('message', formatMessage(botName, 'Welcome to Chat!'));
+
       // Broadcast when a user connects
       socket.broadcast
         .to(user.room)

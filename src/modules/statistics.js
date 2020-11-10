@@ -4,6 +4,7 @@ const history = require('../models/history-model');
 
 module.exports = async function (userId) {
   let data = await history.get(userId);
+  console.log('gotten data statistics: ', data);
   let statArr = [];
   try {
     data = data[0].toObject();
