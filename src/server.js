@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 //client side?
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, { cookie: false });
 require('./apps/chat.js')(io);
 require('./apps/wall.js')(io);
 
