@@ -9,7 +9,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http,{cookie: false });
 const bodyParser = require('body-parser');
 
 require('./apps/chat/chat')(io);
