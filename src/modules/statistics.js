@@ -1,9 +1,10 @@
 'use strict';
 
-const history = require('./history-collection');
+const history = require('../models/history-model');
 
 module.exports = async function (userId) {
-  let data = await history.read(userId);
+  let data = await history.get(userId);
+  console.log('gotten data statistics: ', data);
   let statArr = [];
   try {
     data = data[0].toObject();
@@ -27,7 +28,7 @@ function statistics (course) {
       
     if(chapter.state === 'completed'){
       total++;
-      hours += Math.floor(chapter.duration*50*Math.random()); // numbers randomizer
+      hours += chapter.duration; // numbers randomizer
     }
     result['spentHours'] = hours;
     result['progress'] = Math.floor(total/ course.noOfChapters * 100);

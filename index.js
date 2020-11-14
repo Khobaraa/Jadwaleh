@@ -14,6 +14,4 @@ const mongooseOptions = {
 };
 
 mongoose.connect(MONGOOSE_URL, mongooseOptions);
-
 server.start();
-

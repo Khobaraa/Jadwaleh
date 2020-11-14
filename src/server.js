@@ -1,45 +1,49 @@
 'use strict';
 
-// Server files include authentication, their middlewares, and socket.io server connection with express.
-// The rest could be handled through routing
+// This file includes dependencies, some middleware, and socket.io server connection with express.
+// Rest is handled with a routing mechanism.
 
 // requirements constants
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http,{cookie: false });
+
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-require('./apps/chat/chat')(io);
-require('./apps/wall/wall')(io);
+//client side?
+const io = require('socket.io')(http, { cookie: false });
+require('./apps/chat.js')(io);
+require('./apps/wall.js')(io);
 
-app.set('view engine', 'ejs');
+const notFoundHandler = require('./middleware/404');
+const serverErrorHandler = require('./middleware/500');
 
-const chatRouter = require('./routes/chat');
-const wallRouter = require('./routes/wall');
 
-const notFoundHandler = require('./auth/middleware/404');
-const serverErrorHandler = require('./auth/middleware/500');
-const authRouter =  require('./routes/auth-router.js');
+app.all('*', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  );
+  console.log(req.method, req.url);
+  next();
+});
 
 // Global MiddleWare where you could call it anywhere and has a global scope
 app.use(express.json());
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true,
-})); 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));      // to support all types of bodies
 app.use(cors());
 app.use(cookieParser());
 app.use(serverErrorHandler);
-app.use(express.static('./public'));
-app.use(wallRouter);
-app.use(authRouter);
-app.use(chatRouter);
 
-///////////////////////////////////////////
+// ------------ IO connection ------------ //
 
 io.on('connection', (socket) => {
 
@@ -52,23 +56,28 @@ io.on('connection', (socket) => {
   });  
 });
 
-// custom all containing route
-
-// For dashboard
-const dashboard = require('./routes/dashboard');
-app.use('/', dashboard);
+// ------------ Routes ------------ //
+// all crud routes
+const v1Router = require('./router.js');
+app.use('/api/v1', v1Router);
 
 // For notification
 const notification = require('./routes/notification');
 app.use('/', notification);
 
+// for chat and wall socket routes
+// const chatRouter = require('./routes/chat');
+// app.use(chatRouter);
+
+// const wallRouter = require('./routes/wall');
+// app.use(wallRouter);
 
 app.use('*', notFoundHandler);
 
 module.exports = {
   server: http,
   start: port => {
-    let PORT = port || process.env.PORT || 5000;
-    http.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    let aPort = port || process.env.PORT || 3000;
+    http.listen(aPort, () => console.log(`Listening on port ${aPort}`));
   },
 };

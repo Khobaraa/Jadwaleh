@@ -1,11 +1,9 @@
 module.exports = (io) => {
-  const chatDB = require('./model/chat-model');
+  const chatDB = require('../models/chat-model');
   const chat = io.of('/chatRoom');
   const moment = require('moment');
-  const jwt = require('jsonwebtoken');
-  const SECRET = 'mytokensecret';
 
-  const formatMessage = require('./utils/messages');
+  const formatMessage = require('./utils/messages.js');
   const {
     userJoin,
     getCurrentUser,
@@ -13,23 +11,14 @@ module.exports = (io) => {
     getRoomUsers,
   } = require('./utils/users');
 
-  const botName = 'Jadwaleh Bot';
+  const botName = 'Jadwalla Bot';
 
   // Run when client connects
   chat.on('connection', socket => {
-    // let userToken = socket.request.rawHeaders.filter(val => {if (val.includes('token')) return val; })[0];
-    // userToken = userToken.substring(userToken.indexOf('token=')).split('=')[1];
-    // console.log('userToken?????',userToken);
-
-    socket.on('joinRoom', async ({ room }) => {
-      let userToken = socket.request.rawHeaders.filter(val => { if (val.includes('token')) return val; })[0];
-      userToken = userToken.substring(userToken.indexOf('token=')).split(';')[0].split('=')[1];
-      let username = jwt.verify(userToken, SECRET).username;
-
+    console.log('user connected to the Chat');
+    socket.on('joinRoom', async ({ room, username }) => {
       const user = userJoin(socket.id, username, room);
-
       socket.join(user.room);
-
       // send Last50MessagesByRoom
       let last50Messages = await chatDB.getNumberOfLastMessagesByRoom({ room: user.room.toLowerCase() }, 50);
       socket.emit('history', last50Messages.reverse());
@@ -43,7 +32,6 @@ module.exports = (io) => {
           'message',
           formatMessage(botName, `${user.username} has joined the chat`),
         );
-
       // Send users and room info
       chat.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -61,6 +49,7 @@ module.exports = (io) => {
 
     // Runs when client disconnects
     socket.on('disconnect', () => {
+      console.log('user left  the Chat');
       const user = userLeave(socket.id);
 
       if (user) {
@@ -68,7 +57,6 @@ module.exports = (io) => {
           'message',
           formatMessage(botName, `${user.username} has left the chat`),
         );
-
         // Send users and room info
         chat.to(user.room).emit('roomUsers', {
           room: user.room,
@@ -77,7 +65,4 @@ module.exports = (io) => {
       }
     });
   });
-
-
-
 };

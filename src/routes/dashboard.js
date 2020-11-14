@@ -1,16 +1,12 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-const events = require('../notification/events');
-const statistics = require('../dashboard/statistics');
-const bearerAuth = require('../auth/middleware/bearer');
-//To get the progress and other statistics
-router.get('/dashboard', bearerAuth, getDashboard);
+const events = require('../modules/events');
+const statistics = require('../modules/statistics');
 
-async function getDashboard(req,res,next){
+//To get the progress and other statistics
+async function getDashboard(id){
   try{
-    let courses = await statistics(req.cookies.userId);
+    let courses = await statistics(id);
     if(courses){
       let total =0 , progress = 0;
       courses.forEach( course => {
@@ -18,22 +14,13 @@ async function getDashboard(req,res,next){
       });
       progress = total/ courses.length;
       setTimeout(() => { 
-        events.emit('summary',req.cookies.userId, progress );
-      }, 5000);
-      // res.render('dashboard', {courses:courses});
-      res.status(200).send(courses);
+        events.emit('summary',id, progress );
+      }, 1000);
+      return courses;
     }
-    
   } catch(e){
-    next(e);
+    return e;
   }
-  
 }
 
-// const test = require('../schedule/model/dummydata');
-// router.get('/schedule', savedummy);
-// async function savedummy(){
-//   test();
-// }
-
-module.exports = router;
+module.exports = getDashboard;

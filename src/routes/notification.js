@@ -2,8 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const events = require('../notification/events');
-const Notification = require('../notification/notification');
+const events = require('../modules/events');
+const Notification = require('../models/notification-model');
 require('./auth-router');
 
 let cookie;

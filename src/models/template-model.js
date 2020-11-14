@@ -1,12 +1,14 @@
 'use strict';
 // require the schema and move all notes crud operations
 const mongoose = require('mongoose');
-const Model = require('../mongoTable.js');
+const Model = require('../mongo.js');
 
 const schema = mongoose.model('template', {
+  createdDate: {type: String},
   name: {
-    type: String, required: true, enum: ['Scientific Stream', 'Literary Stream', 'Industrial Stream'],
+    type: String, required: true,
   },
+  description: {type: String},
   courses: [
     {
       name: { type: String },
@@ -22,14 +24,20 @@ const schema = mongoose.model('template', {
       isCompleted: { type: Boolean },
     },
   ],
-  student_id: { type: String, required: true, unique: true, sparse: true},
+  ownerId: { type: String, required: true},
 });
 
-class Template extends Model{
+class Template extends Model {
   constructor() {
     super(schema);
   }
 
+  
+  get(_id) {
+    console.log('reading _id', _id);
+    let template = _id ? this.schema.find({_id}) : this.schema.find({});
+    return template;
+  }
 }
 
 module.exports = new Template;
